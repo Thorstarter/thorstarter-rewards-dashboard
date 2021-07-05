@@ -127,32 +127,48 @@ export default function Home() {
         {loading ? <p style={{marginTop: '16px', textAlign: 'center'}}>Loading...</p> : null}
 
         {position ? (
-          <table className={styles.table}>
-            <tr>
-              <th>Date</th>
-              <th style={{textAlign: 'right'}}>XRUNE $</th>
-              <th style={{textAlign: 'right'}}>XRUNE #</th>
-              <th style={{textAlign: 'right'}}>RUNE #</th>
-              <th style={{textAlign: 'right'}}>Value $</th>
-              <th style={{textAlign: 'right'}}>Change $</th>
-              <th style={{textAlign: 'right'}}>Daily Growth %</th>
-              <th style={{textAlign: 'right'}}>Yearly APR %</th>
-              <th style={{textAlign: 'right'}}>Yearly APY %</th>
-            </tr>
-            {history.map(h => (
-              <tr key={h.pool.startTime}>
-                <td>{formatDate(h.pool.startTime)}</td>
-                <td style={{textAlign: 'right'}}>${parseFloat(h.pool.assetPriceUSD).toFixed(3)}</td>
-                <td style={{textAlign: 'right'}}>{h.assetAmount.toFixed(3)}</td>
-                <td style={{textAlign: 'right'}}>{h.runeAmount.toFixed(3)}</td>
-                <td style={{textAlign: 'right'}}>$ {h.value.toFixed(3)}</td>
-                <td style={{textAlign: 'right'}}>$ {(h.value * h.growth).toFixed(3)}</td>
-                <td style={{textAlign: 'right'}}>{(h.growth*100).toFixed(1)} %</td>
-                <td style={{textAlign: 'right'}}>{(h.growth*100*365).toFixed(1)} %</td>
-                <td style={{textAlign: 'right'}}>{formatLargeNumber(aprdToApy(h.growth)*100)} %</td>
-              </tr>
-            ))}
-          </table>
+          <div>
+            <div style={{display: 'flex', marginBottom: '32px'}}>
+              <div style={{flex: '1', padding: '32px', border: '1px solid rgba(255,255,255,0.3)', borderRadius: '6px', textAlign: 'center', marginRight: '32px'}}>
+                <div style={{marginBottom: '8px'}}>LP Position Value</div>
+                <div style={{fontSize: '24px', fontWeight: 'bold'}}>$ {history[0].value.toFixed(2)}</div>
+              </div>
+              <div style={{flex: '1', padding: '32px', border: '1px solid rgba(255,255,255,0.3)', borderRadius: '6px', textAlign: 'center'}}>
+                <div style={{marginBottom: '8px'}}>Average APY</div>
+                <div style={{fontSize: '24px', fontWeight: 'bold'}}>{formatLargeNumber(aprdToApy(history.reduce((t, v) => t + v.growth, 0)/(history.length-1))*100)} %</div>
+              </div>
+            </div>
+            <table className={styles.table}>
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th style={{textAlign: 'right'}}>XRUNE $</th>
+                  <th style={{textAlign: 'right'}}>XRUNE #</th>
+                  <th style={{textAlign: 'right'}}>RUNE #</th>
+                  <th style={{textAlign: 'right'}}>Value $</th>
+                  <th style={{textAlign: 'right'}}>Change $</th>
+                  <th style={{textAlign: 'right'}}>Daily Growth %</th>
+                  <th style={{textAlign: 'right'}}>Yearly APR %</th>
+                  <th style={{textAlign: 'right'}}>Yearly APY %</th>
+                </tr>
+              </thead>
+              <tbody>
+                {history.map(h => (
+                  <tr key={h.pool.startTime}>
+                    <td>{formatDate(h.pool.startTime)}</td>
+                    <td style={{textAlign: 'right'}}>${parseFloat(h.pool.assetPriceUSD).toFixed(3)}</td>
+                    <td style={{textAlign: 'right'}}>{h.assetAmount.toFixed(3)}</td>
+                    <td style={{textAlign: 'right'}}>{h.runeAmount.toFixed(3)}</td>
+                    <td style={{textAlign: 'right'}}>$ {h.value.toFixed(3)}</td>
+                    <td style={{textAlign: 'right'}}>$ {(h.value * h.growth).toFixed(3)}</td>
+                    <td style={{textAlign: 'right'}}>{(h.growth*100).toFixed(1)} %</td>
+                    <td style={{textAlign: 'right'}}>{(h.growth*100*365).toFixed(1)} %</td>
+                    <td style={{textAlign: 'right'}}>{formatLargeNumber(aprdToApy(h.growth)*100)} %</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         ) : null}
 
         <p style={{marginTop: '80px', textAlign: 'center'}}>
