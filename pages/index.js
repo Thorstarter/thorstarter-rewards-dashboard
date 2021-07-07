@@ -466,8 +466,9 @@ export default function Home() {
           Staking.
           <br />
           <br />
-          Enter a "thor0123..." address for THORChain LP or an Ethereum
-          "0x123..." address for SushiSwap LP & single sided XRUNE staking.
+          Enter a &quot;thor0123...&quot; address for THORChain LP or an
+          Ethereum &quot;0x123...&quot; address for SushiSwap LP & single sided
+          XRUNE staking.
         </p>
       </main>
 
