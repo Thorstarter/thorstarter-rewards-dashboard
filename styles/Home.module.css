@@ -1,20 +1,11 @@
 .container {
-  min-height: 100vh;
   padding: 0 0.5rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
 }
 
 .main {
-  padding: 5rem 0;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  padding: 80px 16px;
+  margin: 0 auto;
+  max-width: 1024px;
 }
 
 .footer {
@@ -58,6 +49,7 @@
 .addressInput {
   line-height: 1.5;
   font-size: 1.5rem;
+  margin-bottom: 32px;
 }
 .addressInput input {
   color: white;
@@ -82,7 +74,30 @@
 }
 .table tr td, .table tr th {
   font-size: 14px;
-  text-align: left;
+  text-align: right;
   padding: 8px 8px;
   border-bottom: 1px solid rgb(255,255,255,0.3);
+}
+
+.boxes {
+  display: flex;
+  margin-bottom: 32px;
+}
+.boxesBox {
+  flex: 1;
+  padding: 16px 16px 8px;
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 6px;
+  text-align: center;
+  margin-right: 32px;
+}
+.boxesBox:last-child {
+  margin-right: 0;
+}
+.boxesBox > div {
+  margin-bottom: 8px;
+}
+.boxesBox > div:nth-child(2) {
+  font-size: 24px;
+  font-weight: bold;
 }
