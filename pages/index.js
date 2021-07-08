@@ -389,7 +389,7 @@ export default function Home() {
               <div className="dashboard-section">
                 <h3 className="section-title">
                   <Image src="/static/img/icons/ts.svg" alt="" width={15} height={40}/>
-                  <a href="https://thorstarter.org/stake" target="_blank" rel="noreferrer">Staking</a> (Single Sided XRUNE)
+                  <a href="https://thorstarter.org/stake" target="_blank" rel="noreferrer">Staking</a> &nbsp;(Single Sided XRUNE)
                 </h3>
                 <div className="cards-grid">
                   <div className="dashboard-block tac">
