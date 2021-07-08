@@ -22,16 +22,16 @@
 	max-width: 880px;
 	.section-title {
 		font-size: 30px !important;
+		display: flex;
+		align-items: center;
+		justify-content: flex-start;
+		flex-wrap: wrap;
 		a {
 			text-decoration: underline;
+			margin-left: 8px;
 			&:hover {
 				color: var(--brand);
 			}
-		}
-		img {
-			display: inline-block;
-			vertical-align: middle;
-			margin: -2px 8px 0 0;
 		}
 	}
 	.cards-grid {
