@@ -388,7 +388,7 @@ export default function Home() {
             {staking ? (
               <div className="dashboard-section">
                 <h3 className="section-title">
-                  <img src="/static/img/icons/ts.svg" alt=""/>
+                  <Image src="/static/img/icons/ts.svg" alt=""/>
                   <a href="https://thorstarter.org/stake" target="_blank" rel="noreferrer">Staking</a> (Single Sided XRUNE)
                 </h3>
                 <div className="cards-grid">
@@ -419,7 +419,7 @@ export default function Home() {
               <>
                 <div className="dashboard-section">
                   <h3 className="section-title">
-                    <img src="/static/img/icons/sushiswap.png" alt="" width={32} height={32}/>
+                    <Image src="/static/img/icons/sushiswap.png" alt="" width={32} height={32}/>
                     <a href="https://app.sushi.com/add/ETH/0x69fa0feE221AD11012BAb0FdB45d444D3D2Ce71c" target="_blank" rel="noreferrer">SushiSwap XRUNE-ETH LP</a>
                   </h3>
                   <div className="cards-grid">
@@ -486,8 +486,8 @@ export default function Home() {
             <div className="page__content font-rules">
               <p>This app supports LP positions on <a href="https://app.thorswap.finance/add/ETH.XRUNE-0X69FA0FEE221AD11012BAB0FDB45D444D3D2CE71C" target="_blank" rel="noreferrer">THORChain</a>, <a href="https://app.sushi.com/add/ETH/0x69fa0feE221AD11012BAb0FdB45d444D3D2Ce71c" target="_blank" rel="noreferrer">SushiSwap</a> & <a
                 href="https://thorstarter.org/stake" target="_blank" rel="noreferrer">XRUNE Staking</a>.</p>
-              <p>Enter a "thor0123..." address for THORChain LP or an Ethereum "0x123..." address for SushiSwap LP &
-                single sided XRUNE staking.</p>
+              <p>Enter a &quot;thor0123...&quot; address for THORChain LP or an Ethereum &quot;0x123...&quot; address
+                for SushiSwap LP & single sided XRUNE staking.</p>
             </div>
 
           </div>
