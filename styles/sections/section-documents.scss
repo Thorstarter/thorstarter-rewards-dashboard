@@ -1,0 +1,94 @@
+.section-documents {
+	padding-top: 40px;
+}
+
+.document-grid {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	grid-gap: 30px;
+	margin-top: 49px;
+	@include media($phone) {
+		grid-template-columns: 1fr;
+	}
+}
+
+.document-plate {
+	border: 2px solid #0A1F2F;
+	border-radius: 30px;
+	background-color: transparent;
+	padding: 76px 0 0 ;
+	text-align: center;
+	position: relative;
+	transition: var(--transition);
+	min-height: 270px;
+	&:after {
+		content: '';
+		display: block;
+		width: 48px;
+		height: 48px;
+		background: url('/static/img/icons/arrow-right.svg') no-repeat center / contain;
+		margin: 0 auto;
+		opacity: 0;
+		transform: translateY(0);
+		pointer-events: none;
+		transition: var(--transition);
+		transition-delay: .2s;
+	}
+	&:hover {
+		background-color: var(--brand);
+		border-color: var(--brand);
+		box-shadow: 0 3px 20px rgba(#28DBD1, .3);
+		padding-top: 55px;
+		&:after {
+			opacity: 1;
+			transform: translateY(23px);
+		}
+		.document-plate__icon path {
+			fill: var(--dark);
+		}
+	}
+	&__icon {
+		display: block;
+		width: 64px;
+		height: auto;
+		margin: 0 auto;
+		path {
+			transition: var(--transition);
+		}
+	}
+	&__title {
+		font-size: 24px;
+		font-weight: 600;
+		margin-top: 13px;
+		a {
+			display: inline-block;
+			color: var(--white);
+			&:hover {
+				color: var(--dark);
+			}
+			&:after {
+				content: '';
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				border-radius: 30px;
+			}
+		}
+	}
+	@include media($tablet) {
+		min-height: auto;
+		padding: 55px 0;
+		&:after {
+			display: none;
+		}
+		&__icon {
+			width: 48px;
+			height: auto;
+		}
+		&__title {
+			font-size: 18px;
+		}
+	}
+}

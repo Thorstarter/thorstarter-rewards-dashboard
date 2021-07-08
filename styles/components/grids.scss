@@ -1,0 +1,33 @@
+.grid {
+	display: flex;
+	justify-content: center;
+	flex-wrap: wrap;
+	margin-left: -15px;
+	margin-right: -15px;
+	margin-bottom: -30px;
+	&__col {
+		padding-left: 15px;
+		padding-right: 15px;
+		width: 100%;
+		margin-bottom: 30px;
+	}
+	&[data-cols="3"] &__col {
+		max-width: 33.33333%;
+	}
+	@include media($laptop-small) {
+		&[data-cols="3"] &__col {
+			max-width: 50%;
+		}
+	}
+	@include media($phablet) {
+		margin-left: 0;
+		margin-right: 0;
+		&__col {
+			padding-left: 0;
+			padding-right: 0;
+		}
+		&[data-cols="3"] &__col {
+			max-width: 100%;
+		}
+	}
+}

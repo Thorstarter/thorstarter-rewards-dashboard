@@ -1,0 +1,107 @@
+.section-bridge {
+	padding-top: 60px;
+	.section-desc {
+		margin-top: 18px;
+	}
+	@include media($phablet) {
+		padding-top: 40px;
+		.section-title,
+		.section-desc {
+			text-align: center;
+		}
+	}
+}
+
+.bridge-items-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+	grid-gap: 30px;
+	margin-top: 50px;
+	counter-reset: bridge;
+}
+
+.bridge-card {
+	padding: 40px;
+	border-radius: 30px;
+	background-color: var(--brand-dark);
+	min-height: 270px;
+	position: relative;
+	transform: translateY(0);
+	transition: var(--transition);
+	&:hover {
+		transform: translateY(-10px);
+		background-color: var(--brand);
+		.bridge-card__headline,
+		.bridge-card__excerpt {
+			color: var(--dark);
+		}
+		.bridge-card__headline {
+			&:before {
+				background-color: var(--dark);
+				border-color: var(--dark);
+			}
+			&:after {
+				filter: brightness(0);
+			}
+		}
+	}
+	&__headline {
+		font-size: 24px;
+		margin: 0;
+		display: flex;
+		align-items: center;
+		justify-content: flex-start;
+		height: 46px;
+		padding-left: 67px;
+		position: relative;
+		transition: var(--transition);
+		&:before {
+			counter-increment: bridge;
+			content: counter(bridge);
+			width: 46px;
+			height: 46px;
+			border-radius: 50%;
+			border: 2px solid var(--brand);
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			position: absolute;
+			top: 0;
+			left: 0;
+			font-size: 24px;
+			font-weight: 600;
+			color: var(--brand);
+			background-color: transparent;
+			transition: var(--transition);
+		}
+		&:after {
+			content: '';
+			width: 27px;
+			height: 27px;
+			background: url('/static/img/icons/dots-angle.svg') no-repeat center / contain;
+			position: absolute;
+			top: 61px;
+			left: 20px;
+		}
+	}
+	&__link {
+		display: block;
+		position: absolute;
+		z-index: 2;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		font-size: 0;
+	}
+	&__excerpt {
+		padding-left: 67px;
+		font-size: 18px;
+		color: var(--grey);
+		margin-top: 26px;
+		transition: var(--transition);
+		p {
+			margin: 0;
+		}
+	}
+}

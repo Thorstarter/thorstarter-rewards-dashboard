@@ -1,0 +1,48 @@
+.section-title {
+	margin: 0;
+	font-size: 48px;
+	line-height: 1.3;
+	&.fw400 {
+		font-weight: 400;
+	}
+	&--large {
+		font-size: 90px !important;
+	}
+	@include media($laptop-small) {
+		font-size: 36px;
+	}
+	@include media($phablet) {
+		font-size: 28px;
+		&--large {
+			font-size: 52px !important;
+		}
+	}
+}
+
+.section-desc {
+	color: var(--grey);
+	font-size: 22px;
+	line-height: 1.55;
+	p {
+		margin: 0;
+	}
+	@include media($laptop-small) {
+		font-size: 18px;
+	}
+}
+
+@import 'section-hero';
+@import 'section-bridge';
+@import 'section-brand';
+@import 'section-story';
+@import 'section-socials';
+@import 'section-documents';
+@import 'section-graph';
+@import 'section-partners';
+@import 'section-join';
+@import 'section-advisors';
+@import 'section-branding';
+@import 'section-apply';
+@import 'section-faq';
+@import 'section-highlights';
+@import 'section-about';

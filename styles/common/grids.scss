@@ -1,0 +1,16 @@
+.cards-grid {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	grid-gap: 30px;
+	@include media($tablet) {
+		grid-gap: 16px;
+	}
+	@include media($phablet) {
+		grid-template-columns: 1fr;
+	}
+}
+
+.spacer {
+	height: 0;
+	padding-bottom: 15%;
+}

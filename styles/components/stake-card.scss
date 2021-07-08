@@ -1,0 +1,148 @@
+.stake-card {
+	background-color: var(--dark);
+	box-shadow: 0 4px 30px rgba(66, 255, 161, 0.85);
+	padding: 40px 40px 0;
+	&__head {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		border-bottom: 1px solid var(--brand-dark);
+		padding-bottom: 30px;
+	}
+	&__title {
+		display: flex;
+		align-items: center;
+		justify-content: flex-start;
+		font-size: 24px;
+		line-height: 1;
+	}
+	&__icon {
+		font-size: 0;
+		margin-right: 15px;
+	}
+	&__apr {
+		font-size: 18px;
+	}
+	&__subtitle {
+		font-size: 16px;
+		line-height: 1.25;
+	}
+	&__body {
+		padding-top: 59px;
+	}
+	&__grid {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		grid-gap: 20px;
+	}
+	&__col {
+		.btn {
+			min-width: 100%;
+			height: 46px;
+			font-size: 16px;
+			color: var(--brand);
+			margin-top: 0 !important;
+			&:hover {
+				color: var(--white);
+			}
+		}
+	}
+	&__total {
+		font-size: 40px;
+		line-height: 1;
+	}
+	&__mid {
+		margin-top: 42px;
+		margin-bottom: 13px;
+	}
+	&__caption {
+		font-size: 16px;
+		color: var(--white-50);
+		text-align: center;
+		margin-bottom: 12px;
+		span {
+			color: var(--white);
+		}
+	}
+	&__foot {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		font-size: 16px;
+		height: 60px;
+		margin: 32px -40px 0;
+		padding: 0 40px;
+		background-color: var(--brand-dark);
+	}
+	@include media($desktop-small) {
+		padding: 30px 20px 0;
+		&__grid {
+			grid-gap: 10px;
+		}
+		&__foot {
+			margin-left: -20px;
+			margin-right: -20px;
+			padding: 0 20px;
+		}
+	}
+	@include media($phablet) {
+		margin-left: -24px;
+		margin-right: -24px;
+	}
+}
+
+.stake-card-small {
+	border: 1px solid var(--brand-50);
+	padding: 44px 40px 30px;
+	text-align: center;
+	&__head {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-bottom: 1px solid var(--brand-dark);
+		padding-bottom: 34px;
+	}
+	&__logos {
+		margin: 0 10px 0 0;
+		padding: 0;
+		list-style: none;
+		display: flex;
+		align-items: center;
+		justify-content: flex-start;
+		font-size: 0;
+		li {
+			&:first-child {
+				position: relative;
+				z-index: 1;
+				&:before {
+					content: '';
+					position: absolute;
+					top: -2px;
+					left: -2px;
+					width: calc(100% + 4px);
+					height: calc(100% + 4px);
+					border: 2px solid var(--brand-dark);
+					border-radius: 50%;
+				}
+			}
+			&:not(:first-child) {
+				margin-left: -7px;
+			}
+		}
+		img {
+			width: 32px;
+			height: 32px;
+			border-radius: 50%;
+		}
+	}
+	&__title {
+		font-size: 24px;
+		line-height: 1;
+	}
+	&__foot {
+		padding-top: 34px;
+		.inline-btn {
+			min-width: 200px;
+		}
+	}
+}

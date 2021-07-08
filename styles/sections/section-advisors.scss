@@ -1,0 +1,105 @@
+.section-advisors {
+	margin-top: 125px;
+	.section-title {
+		font-size: 30px;
+	}
+	&__logo {
+		display: block;
+		margin: 35px auto 0;
+		max-width: 50%;
+	}
+	@include media($tablet) {
+		margin-top: 80px;
+		.section-title {
+			font-size: 22px;
+		}
+		&__logo {
+			margin-top: 15px;
+		}
+	}
+}
+
+.advisors-grid {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	grid-gap: 40px 10px;
+	margin-top: 70px;
+	@include media($tablet) {
+		grid-template-columns: repeat(2, 1fr);
+		margin-top: 35px;
+	}
+	@include media($phone) {
+		margin-left: -20px;
+		margin-right: -20px;
+	}
+}
+
+.advisor-card {
+	text-align: center;
+	&__photo {
+		display: block;
+		width: 100px;
+		height: 100px;
+		border-radius: 50%;
+		object-fit: cover;
+		margin: 0 auto;
+	}
+	&__name {
+		font-size: 24px;
+		line-height: 1;
+		font-weight: 600;
+		margin-top: 18px;
+	}
+	&__position {
+		font-size: 18px;
+		line-height: 1.25;
+		color: var(--grey);
+		margin-top: 10px;
+	}
+	&__social {
+		display: inline-block;
+		font-size: 18px;
+		line-height: 1.25;
+		font-weight: 600;
+		color: var(--brand);
+		margin-top: 10px;
+		&:hover:before {
+			filter: brightness(0) invert(1);
+		}
+		&:before {
+			content: '';
+			display: inline-block;
+			vertical-align: middle;
+			width: 24px;
+			height: 24px;
+			margin-right: 7px;
+			background: url('/static/img/icons/advisor-twitter.svg') no-repeat center / contain;
+			filter: none;
+			transition: var(--transition);
+		}
+	}
+	@include media($phone) {
+		&__photo {
+			width: 75px;
+			height: 75px;
+		}
+		&__name {
+			font-size: 18px;
+			margin-top: 12px;
+		}
+		&__position {
+			font-size: 12px;
+			margin-top: 6px;
+		}
+		&__social {
+			font-size: 12px;
+			margin-top: 2px;
+			&:before {
+				width: 18px;
+				height: 18px;
+				margin-right: 3px;
+				margin-top: -1px;
+			}
+		}
+	}
+}

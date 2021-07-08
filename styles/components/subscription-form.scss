@@ -1,0 +1,44 @@
+.subscription-form {
+	margin-top: 44px;
+	&__caption {
+		font-size: 20px;
+		color: var(--white);
+	}
+	form {
+		.sideBySideWrap {
+			display: flex;
+			margin-top: 12px;
+		}
+		[type="email"] {
+			width: 240px;
+			height: 56px;
+			border: 2px solid var(--brand);
+			border-right: 0;
+			background-color: transparent;
+			color: var(--white);
+			font-size: 18px;
+			line-height: normal;
+			padding: 0 16px;
+			&::placeholder {
+				color: var(--white-50);
+			}
+		}
+		[type="submit"] {
+			font-size: 0;
+			width: 56px;
+			height: 56px;
+			border: 0;
+			background-color: var(--brand);
+			cursor: pointer;
+			transition: var(--transition);
+			svg {
+				transform: translateX(0);
+				will-change: transform;
+				transition: var(--transition);
+			}
+			&:hover svg {
+				transform: translateX(3px);
+			}
+		}
+	}
+}

@@ -1,0 +1,249 @@
+.rune-holder {
+	border: 1px solid rgba(#28DBD1, .5);
+	padding: 50px 60px 60px;
+	margin-top: 25px;
+	.section-title {
+		font-size: 40px !important;
+	}
+	&__content {
+		margin: 25px auto 0;
+		max-width: 992px;
+	}
+	.rune-calc {
+		margin-top: 60px;
+		margin-bottom: 60px;
+	}
+	@include media($tablet) {
+		padding: 40px 20px 30px;
+		.section-title {
+			font-size: 32px !important;
+		}
+		.rune-calc {
+			margin-top: 40px;
+			margin-bottom: 40px;
+		}
+	}
+}
+
+.rune-calc {
+	max-width: 704px;
+	margin: 0 auto;
+	&__block {
+		background-color: var(--brand-dark);
+		border: 1px solid var(--black);
+		border-radius: 7px;
+		padding: 20px;
+		display: flex;
+		align-items: flex-start;
+		&-main {
+			flex: 1;
+		}
+	}
+	&__top {
+		.rune-calc__head {
+			flex: 0 0 117px;
+		}
+		.btn {
+			margin-top: 15px !important;
+			height: 42px;
+			min-width: 160px;
+		}
+	}
+	&__logos {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		display: flex;
+		align-items: center;
+		justify-content: flex-start;
+		li {
+			position: relative;
+			font-size: 0;
+			width: 48px;
+			min-width: 48px;
+			&:before {
+				content: '';
+				border-radius: 50%;
+				border: 2px solid var(--brand-dark);
+				position: absolute;
+				top: -2px;
+				left: -2px;
+				width: calc(100% + 4px);
+				height: calc(100% + 4px);
+			}
+			&:first-child {
+				z-index: 1;
+			}
+			&:not(:first-child) {
+				margin-left: -12px;
+			}
+		}
+	}
+	&__head {
+		padding-left: 15px;
+		padding-top: 4px;
+		&-up {
+			font-size: 12px;
+			line-height: 1;
+			color: var(--white-50);
+		}
+		&-down {
+			font-size: 20px;
+			line-height: 1;
+			margin-top: 8px;
+		}
+	}
+	&__field {
+		position: relative;
+		&-input {
+			background-color: var(--dark);
+			height: 44px;
+			width: 100%;
+			border: 0;
+			border-radius: 5px;
+			padding: 0 15px;
+			font-size: 18px;
+			color: var(--white);
+			&::placeholder {
+				color: var(--white-25);
+			}
+		}
+		&-caption {
+			font-size: 16px;
+			line-height: 1;
+			color: var(--white-50);
+			position: absolute;
+			top: calc(50% - 8px);
+			right: 15px;
+			span {
+				color: var(--white);
+			}
+		}
+	}
+	&__separator {
+		display: flex;
+		align-items: center;
+		justify-content: flex-start;
+		padding-left: 68px;
+		margin-top: -7px;
+		margin-bottom: -7px;
+		position: relative;
+		z-index: 1;
+		&:before {
+			content: '';
+			width: 60px;
+			height: 60px;
+			background: url('/static/img/svg/calc-plus.svg') no-repeat center / contain;
+			border-radius: 50%;
+			margin-right: 6px;
+		}
+		&-caption {
+			font-size: 14px;
+			color: var(--white-50);
+		}
+		.tooltip {
+			margin-left: 6px;
+			margin-top: -2px;
+		}
+	}
+	&__bottom {
+		display: grid;
+		grid-template-columns: 260px 123px 1fr;
+		.rune-calc__field {
+			padding-left: 38px;
+		}
+		&-caption {
+			font-size: 12px;
+			color: var(--white);
+			font-weight: 600;
+			margin-top: 10px;
+			padding: 0 20px;
+			span {
+				font-weight: 400;
+				color: var(--white-50);
+			}
+		}
+		&-arrow {
+			text-align: center;
+			padding-top: 36px;
+			img {
+				display: block;
+				margin: 0 auto;
+			}
+			span {
+				display: block;
+				font-size: 12px;
+				color: var(--white-50);
+				margin-top: 5px;
+			}
+		}
+	}
+	&__reload {
+		padding: 0;
+		border: 0;
+		font-size: 0;
+		background-color: transparent;
+		cursor: pointer;
+		display: inline-block;
+		vertical-align: middle;
+		margin: -2px 8px 0 0;
+		&:hover svg {
+			fill: var(--brand);
+		}
+		svg {
+			transition: var(--transition);
+		}
+	}
+	@include media($phablet) {
+		&__bottom {
+			display: block;
+			&-arrow {
+				padding: 10px 0 5px;
+				img {
+					display: none;
+				}
+			}
+			&-caption.tar {
+				text-align: left;
+			}
+		}
+	}
+	@include media($phone) {
+		&__top .btn {
+			min-width: 100%;
+		}
+		&__block {
+			flex-wrap: wrap;
+			&-main {
+				min-width: 100%;
+				margin-top: 12px;
+			}
+		}
+		&__field {
+			&-caption {
+				position: relative;
+				top: unset;
+				right: unset;
+				text-align: right;
+				margin-top: 8px;
+				font-size: 14px;
+			}
+		}
+		&__separator {
+			padding-left: 0;
+			margin: 10px 0;
+			justify-content: center;
+			&:before {
+				display: none;
+			}
+		}
+		&__bottom {
+			.rune-calc__field {
+				padding-left: 0;
+			}
+			&-caption {
+				text-align: center !important;
+			}
+		}
+	}
+}

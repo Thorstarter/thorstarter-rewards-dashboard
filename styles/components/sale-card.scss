@@ -1,0 +1,160 @@
+.sale-card {
+	border: 2px solid var(--brand-dark);
+	border-radius: 30px;
+	padding: 24px 50px 50px;
+	&__title {
+		margin: 0;
+		font-size: 21px;
+		line-height: 1;
+		font-weight: 600;
+		color: var(--white-70);
+	}
+	&__date {
+		display: block;
+		font-size: 28px;
+		line-height: 1;
+		padding-left: 56px;
+		min-height: 35px;
+		position: relative;
+		margin-top: 18px;
+		&:before {
+			content: '';
+			width: 35px;
+			height: 35px;
+			background: url('/static/img/icons/calendar.svg') no-repeat center / contain;
+			position: absolute;
+			top: 0;
+			left: 0;
+		}
+	}
+	&__features {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		grid-gap: 30px;
+		font-size: 18px;
+		line-height: 1.45;
+		margin-top: 40px;
+		border-bottom: 1px solid var(--brand-dark);
+		min-height: 120px;
+		h5 {
+			font-size: 18px;
+			font-weight: 600;
+			color: var(--white-50);
+			margin: 0;
+		}
+		p {
+			margin: 0;
+			padding-top: 12px;
+		}
+	}
+	&__feature:not(:last-child) {
+		padding-right: 10px;
+	}
+	&__caption {
+		text-align: center;
+		font-size: 18px;
+		line-height: 1.45;
+		padding-top: 30px;
+		p {
+			margin: 0;
+		}
+	}
+	&__buttons {
+		margin: 28px auto 0;
+		padding: 0;
+		list-style: none;
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		grid-gap: 20px;
+		max-width: 428px;
+		.btn {
+			font-size: 16px;
+			font-weight: 600;
+			min-width: 100%;
+			margin-top: 0 !important;
+		}
+	}
+	&__countdown {
+		text-align: center;
+		margin-top: 40px;
+		min-height: 104px;
+		&.is-disabled {
+			opacity: .5;
+		}
+	}
+	@include media($laptop-small) {
+		padding: 24px 32px 32px;
+		&__date {
+			font-size: 22px;
+			min-height: 24px;
+			padding-left: 36px;
+			&:before {
+				width: 24px;
+				height: 24px;
+			}
+		}
+		&__features {
+			margin-top: 20px;
+			font-size: 16px;
+			min-height: 100px;
+			h5 {
+				font-size: 16px;
+			}
+			p {
+				padding-top: 6px;
+			}
+		}
+		&__caption {
+			font-size: 16px;
+			padding-top: 20px;
+		}
+		&__countdown {
+			min-height: 80px;
+		}
+	}
+	@include media($tablet) {
+		&__date {
+			font-size: 18px;
+			line-height: 1.25;
+		}
+		&__features {
+			display: block;
+			min-height: unset;
+			padding-bottom: 20px;
+			margin-right: -20px;
+			br {
+				display: none;
+			}
+			p {
+				padding-top: 0;
+			}
+		}
+		&__feature:not(:last-child) {
+			padding-right: 0;
+			margin-bottom: 12px;
+		}
+		&__caption {
+			margin-left: -10px;
+			margin-right: -10px;
+		}
+		&__buttons {
+			grid-template-columns: 1fr;
+		}
+		&__countdown {
+			min-height: 68px;
+			margin-top: 20px;
+		}
+	}
+	@include media($phablet) {
+		&__features {
+			margin-right: 0;
+		}
+		&__caption {
+			margin-left: 0;
+			margin-right: 0;
+			br {
+				display: none;
+			}
+		}
+	}
+}

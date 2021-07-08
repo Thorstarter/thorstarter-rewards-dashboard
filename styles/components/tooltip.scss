@@ -1,0 +1,53 @@
+.tooltip {
+	display: inline-block;
+	vertical-align: middle;
+	font-size: 0;
+	width: 15px;
+	height: 15px;
+	background: url('/static/img/icons/question.svg');
+	cursor: pointer;
+	position: relative;
+	z-index: 1;
+	&:hover &__content {
+		opacity: 1;
+		pointer-events: all;
+	}
+	&__content {
+		position: absolute;
+		z-index: 1;
+		bottom: calc(100% + 16px);
+		left: 50%;
+		transform: translateX(-50%);
+		font-size: 14px;
+		width: 100vw;
+		max-width: 200px;
+		background-color: var(--dark);
+		text-align: center;
+		border-radius: 4px;
+		padding: 10px;
+		opacity: 0;
+		pointer-events: none;
+		transition: var(--transition);
+		&:after {
+			content: '';
+			width: 12px;
+			height: 12px;
+			background-color: var(--dark);
+			transform: rotate(45deg);
+			position: absolute;
+			bottom: -6px;
+			left: calc(50% - 6px);
+		}
+		p {
+			margin: 0;
+		}
+	}
+	@include media($phone) {
+		&__content {
+			transform: translateX(-90%);
+			&:after {
+				left: calc(90% - 6px);
+			}
+		}
+	}
+}

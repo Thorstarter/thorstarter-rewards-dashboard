@@ -1,0 +1,8 @@
+<svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+	<circle cx="30" cy="30" r="26" fill="#0A1F2F" stroke="#02121D" stroke-width="8"/>
+	<g opacity="0.5">
+		<path fill-rule="evenodd" clip-rule="evenodd" d="M31 20H29V29H20V31H29V40H31V31H40V29H31V20Z" fill="white"/>
+		<path fill-rule="evenodd" clip-rule="evenodd" d="M31 20H29V29H20V31H29V40H31V31H40V29H31V20Z" fill="white"/>
+		<path fill-rule="evenodd" clip-rule="evenodd" d="M31 20H29V29H20V31H29V40H31V31H40V29H31V20Z" fill="white"/>
+	</g>
+</svg>

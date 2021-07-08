@@ -1,0 +1,63 @@
+.tt-timer {
+	display: inline-flex;
+	align-items: flex-start;
+	justify-content: center;
+}
+
+.tt-value {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	height: 80px;
+	min-width: 80px;
+	font-size: 48px;
+	line-height: 1;
+	font-weight: 600;
+	background-color: #0a1f2f;
+	border-radius: 8px;
+	@include media($laptop-small) {
+		font-size: 32px;
+		height: 60px;
+		min-width: 60px;
+	}
+	@include media($tablet) {
+		height: 48px;
+		min-width: 48px;
+		font-size: 26px;
+	}
+}
+
+.tt-caption {
+	display: block;
+	font-size: 16px;
+	line-height: 1;
+	color: var(--white-50);
+	margin-top: 8px;
+	@include media($laptop-small) {
+		font-size: 13px;
+		margin-top: 7px;
+	}
+}
+
+.tt-separator {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	color: var(--white-50);
+	font-weight: 700;
+	width: 36px;
+	font-size: 36px;
+	line-height: 80px;
+	@include media($laptop-small) {
+		width: 24px;
+		font-size: 24px;
+		line-height: 60px;
+	}
+	@include media($tablet) {
+		line-height: 48px;
+		font-size: 20px;
+		width: 18px;
+	}
+}

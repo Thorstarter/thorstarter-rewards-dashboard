@@ -1,0 +1,16 @@
+.page {
+	padding: 192px 0 30px;
+	&__content {
+		max-width: 850px;
+		margin: 52px auto 0;
+	}
+	&__foot {
+		margin-top: 50px;
+	}
+	@include media($phablet) {
+		padding: 0;
+		&__content {
+			margin-top: 26px;
+		}
+	}
+}

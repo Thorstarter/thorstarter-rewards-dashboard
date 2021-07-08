@@ -1,0 +1,44 @@
+.spoiler {
+	&:not(:first-of-type) {
+		padding-top: 20px;
+	}
+	&:not(:last-of-type) {
+		border-bottom: 1px solid var(--white-20);
+	}
+	&.is-opened [data-head]:after {
+		transform: rotate(45deg);
+	}
+	[data-head] {
+		cursor: pointer;
+		position: relative;
+		font-size: 21px;
+		font-weight: 500;
+		margin-bottom: 0;
+		padding-bottom: 20px;
+		padding-right: 24px;
+		color: var(--white-90);
+		&:after {
+			content: '';
+			position: absolute;
+			top: 7px;
+			right: 0;
+			width: 16px;
+			height: 16px;
+			background: url('/static/img/icons/plus-white.svg') no-repeat center / contain;
+			transform: rotate(0deg);
+			transition: var(--transition);
+			will-change: transform;
+		}
+	}
+	[data-body] {
+		font-size: 18px;
+		padding-bottom: 16px;
+		display: none;
+		p, ul, ol {
+			margin-bottom: 8px;
+		}
+		& > *:last-child {
+			margin-bottom: 0;
+		}
+	}
+}

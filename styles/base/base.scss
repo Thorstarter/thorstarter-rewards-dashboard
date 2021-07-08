@@ -1,0 +1,86 @@
+/* Base Elements */
+body {
+  color: var(--white);
+  font-family: var(--font-kohinoor);
+  font-size: 22px;
+  font-weight: 400;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  background-color: var(--dark);
+  background-image: url('/static/img/src/bg-hero.jpg'), url('/static/img/src/bg-footer.png');
+  background-repeat: no-repeat;
+  background-size: 100% auto;
+  background-position: top center, bottom center;
+  &.page-about {
+    background-image: url('/static/img/src/bg-hero-about.jpg'), url('/static/img/src/bg-footer.png');
+  }
+  &.page-sale {
+    background-image: url('/static/img/src/bg-hero-sale.jpg'), url('/static/img/src/bg-footer.png');
+  }
+  &.page-static {
+    background-image: url('/static/img/src/bg-footer.png');
+    background-position: bottom center;
+  }
+  &.page-brand {
+    background-image: url('/static/img/src/bg-hero-brand.jpg'), url('/static/img/src/bg-footer.png');
+  }
+  &.page-ido {
+    background-image: url('/static/img/src/bg-hero-ido.png'), url('/static/img/src/bg-footer.png');
+  }
+  &.no-bg-footer {
+    background-image: url('/static/img/src/bg-hero-sale.jpg');
+    background-position: top center;
+  }
+  &.no-bg-header {
+    background-image: url('/static/img/src/bg-footer.png');
+    background-position: bottom center;
+  }
+  &.no-bg-footer.no-bg-header {
+    background-image: none;
+  }
+  @include media($laptop-small) {
+    font-size: 18px;
+  }
+  @include media($phablet) {
+    background-position: top 100px center, bottom center;
+    &.no-bg-footer {
+      background-position: top center;
+    }
+    &.no-bg-header {
+      background-position: bottom center;
+    }
+    &.no-bg-footer.no-bg-header {
+      background-image: none;
+    }
+  }
+}
+
+*, *:before, *:after {
+  box-sizing: border-box;
+}
+
+.wrap {
+  width: 100%;
+  max-width: 1490px;
+  padding: 0 100px;
+  margin: 0 auto;
+  @include media($laptop) {
+    padding: 0 75px;
+  }
+  @include media($laptop-small) {
+    padding: 0 24px;
+  }
+}
+
+.my-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  min-height: 1830vh;
+  background-position: top center;
+  background-repeat: no-repeat;
+  z-index: -1;
+  opacity: .35;
+}

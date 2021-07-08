@@ -1,0 +1,41 @@
+a {
+  text-decoration: none;
+  color: var(--white);
+  transition: var(--transition);
+  &:hover {
+    color: var(--white);
+  }
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  min-height: 1px;
+}
+
+.tac {
+  text-align: center;
+}
+
+.tar {
+  text-align: right;
+}
+
+button, input, textarea, select {
+  outline: none;
+}
+
+input[type="text"] {
+  appearance: none;
+}
+
+[data-lazy-me]:not([src]) {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: #eee;
+}
+
+.is-overflowed {
+  overflow: hidden;
+}

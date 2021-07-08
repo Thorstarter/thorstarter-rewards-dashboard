@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import * as ethers from "ethers";
 import Head from "next/head";
 import Image from "next/image";
+import Layout from "../components/Layout";
 import styles from "../styles/Home.module.css";
 import { tokenAbi, stakingAbi, sushiSwapPoolAbi } from "../utils/abis";
 
@@ -278,209 +279,416 @@ export default function Home() {
     }
   }, []);
 
+  useEffect(() => {
+    document.body.classList.add('no-bg-header', 'no-bg-footer');
+  }, []);
+
   return (
-    <div className={styles.container}>
+    <>
       <Head>
         <title>Thorstarter Rewards Dashboard</title>
-        <meta
-          name="description"
-          content="Visualize your liquidity mining rewards"
-        />
-        <link rel="icon" href="/favicon.ico" />
+        <meta name="description" content="Visualize your liquidity mining rewards"/>
       </Head>
-
-      <main className={styles.main}>
-        <h1 className={styles.title}>Rewards Dashboard</h1>
-
-        <p className={styles.addressInput}>
-          <input
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
-            placeholder="thor123... or 0x123..."
-          />
-          <button onClick={onLoad}>Load</button>
-        </p>
-
-        {error ? (
-          <p style={{ marginTop: "16px", textAlign: "center", color: "red" }}>
-            {error}
-          </p>
-        ) : null}
-        {loading ? (
-          <p style={{ marginTop: "16px", textAlign: "center" }}>Loading...</p>
-        ) : null}
-
-        {position ? (
-          <div>
-            <h2>THORChain XRUNE-RUNE LP</h2>
-            <div className={styles.boxes}>
-              <div className={styles.boxesBox}>
-                <div>LP Position Value</div>
-                <div>$ {history[0].value.toFixed(2)}</div>
-              </div>
-              <div className={styles.boxesBox}>
-                <div>Average APY</div>
-                <div>
-                  {formatLargeNumber(
-                    aprdToApy(
-                      history.reduce((t, v) => t + v.growth, 0) /
-                        (history.length - 1)
-                    ) * 100
-                  )}{" "}
-                  %
+      <Layout>
+        <section className="section-hero section-hero--brand">
+          <div className="wrap">
+            <h1 className="section-title tac">Rewards Dashboard</h1>
+            <div className="dashboard-input">
+              <div className="text-field">
+                <div className="text-field__holder">
+                  <input
+                    type="text"
+                    className="text-field__input"
+                    value={address}
+                    placeholder="thor123... or 0x123..."
+                    onChange={(e) => setAddress(e.target.value)}/>
                 </div>
               </div>
+              <button type="button" className="btn" onClick={onLoad}>Load</button>
             </div>
-            <table className={styles.table}>
-              <thead>
-                <tr>
-                  <th style={{ textAlign: "left" }}>Date</th>
-                  <th>XRUNE $</th>
-                  <th>XRUNE #</th>
-                  <th>RUNE #</th>
-                  <th>Value $</th>
-                  <th>Rewards $</th>
-                  <th>Rewards %</th>
-                  <th>Change $</th>
-                  <th>Change %</th>
-                  <th>Yearly APR %</th>
-                  <th>Yearly APY %</th>
-                </tr>
-              </thead>
-              <tbody>
-                {history.map((h) => (
-                  <tr key={h.pool.startTime}>
-                    <td style={{ textAlign: "left" }}>
-                      {formatDate(h.pool.startTime)}
-                    </td>
-                    <td>$ {parseFloat(h.pool.assetPriceUSD).toFixed(3)}</td>
-                    <td>{h.assetAmount.toFixed(1)}</td>
-                    <td>{h.runeAmount.toFixed(1)}</td>
-                    <td>$ {h.value.toFixed(3)}</td>
-                    <td>$ {h.tsRewards.toFixed(1)}</td>
-                    <td>{(h.tsRewardsApy * 100).toFixed(0)} %</td>
-                    <td>$ {(h.value * h.growth).toFixed(1)}</td>
-                    <td>{(h.growth * 100).toFixed(1)} %</td>
-                    <td>{(h.growth * 100 * 365).toFixed(1)} %</td>
-                    <td>{formatLargeNumber(aprdToApy(h.growth) * 100)} %</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+
+            {error ? (
+                <div className="dashboard-error">
+                  {error}
+                </div>
+            ) : null}
+            {loading ? (
+                <div className="dashboard-loading">
+                  Loading...
+                </div>
+            ) : null}
+
+            {position ? (
+              <>
+                <div className="dashboard-section">
+                  <h3 className="section-title">THORChain XRUNE-RUNE LP</h3>
+                  <div className="cards-grid">
+                    <div className="dashboard-block tac">
+                      <div className="dashboard-block__caption">LP Position Value</div>
+                      <div className="dashboard-block__value">$ {history[0].value.toFixed(2)}</div>
+                    </div>
+                    <div className="dashboard-block tac">
+                      <div className="dashboard-block__caption">Average APY</div>
+                      <div className="dashboard-block__value">
+                        {formatLargeNumber(
+                          aprdToApy(
+                            history.reduce((t, v) => t + v.growth, 0) /
+                            (history.length - 1)
+                          ) * 100
+                        )}{" "}
+                        %
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="dashboard-section">
+                  <div className="dashboard-table">
+                    <table>
+                      <thead>
+                      <tr>
+                        <th style={{ textAlign: "left" }}>Date</th>
+                        <th>XRUNE $</th>
+                        <th>XRUNE #</th>
+                        <th>RUNE #</th>
+                        <th>Value $</th>
+                        <th>Rewards $</th>
+                        <th>Rewards %</th>
+                        <th>Change $</th>
+                        <th>Change %</th>
+                        <th>Yearly APR %</th>
+                        <th>Yearly APY %</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      {history.map((h) => (
+                        <tr key={h.pool.startTime}>
+                          <td style={{ textAlign: "left" }}>
+                            {formatDate(h.pool.startTime)}
+                          </td>
+                          <td>$ {parseFloat(h.pool.assetPriceUSD).toFixed(3)}</td>
+                          <td>{h.assetAmount.toFixed(1)}</td>
+                          <td>{h.runeAmount.toFixed(1)}</td>
+                          <td>$ {h.value.toFixed(3)}</td>
+                          <td>$ {h.tsRewards.toFixed(1)}</td>
+                          <td>{(h.tsRewardsApy * 100).toFixed(0)} %</td>
+                          <td>$ {(h.value * h.growth).toFixed(1)}</td>
+                          <td>{(h.growth * 100).toFixed(1)} %</td>
+                          <td>{(h.growth * 100 * 365).toFixed(1)} %</td>
+                          <td>{formatLargeNumber(aprdToApy(h.growth) * 100)} %</td>
+                        </tr>
+                      ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </>
+            ) : null}
+
+            {staking ? (
+              <div className="dashboard-section">
+                <h3 className="section-title">
+                  <img src="/static/img/icons/ts.svg" alt=""/>
+                  <a href="https://thorstarter.org/stake" target="_blank" rel="noreferrer">Staking</a> (Single Sided XRUNE)
+                </h3>
+                <div className="cards-grid">
+                  <div className="dashboard-block tac">
+                    <div className="dashboard-block__caption">Staked</div>
+                    <div className="dashboard-block__value">{formatLargeNumber(staking.staked)}</div>
+                    <div className="dashboard-block__foot">$ {formatLargeNumber(staking.staked * staking.price)}</div>
+                  </div>
+                  <div className="dashboard-block tac">
+                    <div className="dashboard-block__caption">Pending Rewards</div>
+                    <div className="dashboard-block__value">{formatLargeNumber(staking.pending)}</div>
+                    <div className="dashboard-block__foot">$ {formatLargeNumber(staking.pending * staking.price)}</div>
+                  </div>
+                  <div className="dashboard-block tac">
+                    <div className="dashboard-block__caption">Balance</div>
+                    <div className="dashboard-block__value">{formatLargeNumber(staking.balance)}</div>
+                    <div className="dashboard-block__foot">$ {formatLargeNumber(staking.balance * staking.price)}</div>
+                  </div>
+                  <div className="dashboard-block tac">
+                    <div className="dashboard-block__caption">XRUNE Price</div>
+                    <div className="dashboard-block__value">$ {staking.price.toFixed(4)}</div>
+                  </div>
+                </div>
+              </div>
+            ) : null}
+
+            {sushiPosition && sushiHistory ? (
+              <>
+                <div className="dashboard-section">
+                  <h3 className="section-title">
+                    <img src="/static/img/icons/sushiswap.png" alt="" width={32} height={32}/>
+                    <a href="https://app.sushi.com/add/ETH/0x69fa0feE221AD11012BAb0FdB45d444D3D2Ce71c" target="_blank" rel="noreferrer">SushiSwap XRUNE-ETH LP</a>
+                  </h3>
+                  <div className="cards-grid">
+                    <div className="dashboard-block tac">
+                      <div className="dashboard-block__caption">LP Position Value</div>
+                      <div className="dashboard-block__value">$ {sushiPosition.value.toFixed(2)}</div>
+                    </div>
+                    <div className="dashboard-block tac">
+                      <div className="dashboard-block__caption">Average APY</div>
+                      <div className="dashboard-block__value">
+                        {formatLargeNumber(
+                          aprdToApy(
+                            sushiHistory.reduce((t, v) => t + v.growth, 0) /
+                            (sushiHistory.length - 1)
+                          ) * 100
+                        )}{" "}
+                        %
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="dashboard-section">
+                  <div className="dashboard-table">
+                    <table>
+                      <thead>
+                      <tr>
+                        <th style={{ textAlign: "left" }}>Date</th>
+                        <th>XRUNE $</th>
+                        <th>XRUNE #</th>
+                        <th>ETH #</th>
+                        <th>Value $</th>
+                        <th>Rewards $</th>
+                        <th>Rewards %</th>
+                        <th>Change $</th>
+                        <th>Change %</th>
+                        <th>Yearly APR %</th>
+                        <th>Yearly APY %</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      {sushiHistory.map((h) => (
+                        <tr key={h.date}>
+                          <td style={{ textAlign: "left" }}>{formatDate(h.date)}</td>
+                          <td>$ {parseFloat(h.price).toFixed(3)}</td>
+                          <td>{h.amountToken.toFixed(1)}</td>
+                          <td>{h.amountEth.toFixed(1)}</td>
+                          <td>$ {h.value.toFixed(3)}</td>
+                          <td>$ {h.tsRewards.toFixed(1)}</td>
+                          <td>{(h.tsRewardsApy * 100).toFixed(0)} %</td>
+                          <td>$ {(h.value * h.growth).toFixed(1)}</td>
+                          <td>{(h.growth * 100).toFixed(1)} %</td>
+                          <td>{(h.growth * 100 * 365).toFixed(1)} %</td>
+                          <td>{formatLargeNumber(aprdToApy(h.growth) * 100)} %</td>
+                        </tr>
+                      ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </>
+            ) : null}
+
+            <div className="page__content font-rules">
+              <p>This app supports LP positions on <a href="https://app.thorswap.finance/add/ETH.XRUNE-0X69FA0FEE221AD11012BAB0FDB45D444D3D2CE71C" target="_blank" rel="noreferrer">THORChain</a>, <a href="https://app.sushi.com/add/ETH/0x69fa0feE221AD11012BAb0FdB45d444D3D2Ce71c" target="_blank" rel="noreferrer">SushiSwap</a> & <a
+                href="https://thorstarter.org/stake" target="_blank" rel="noreferrer">XRUNE Staking</a>.</p>
+              <p>Enter a "thor0123..." address for THORChain LP or an Ethereum "0x123..." address for SushiSwap LP &
+                single sided XRUNE staking.</p>
+            </div>
+
           </div>
-        ) : null}
-
-        {staking ? (
-          <div style={{ width: "100%" }}>
-            <h2>Staking (Single Sided XRUNE)</h2>
-            <div className={styles.boxes}>
-              <div className={styles.boxesBox}>
-                <div>Staked</div>
-                <div>{formatLargeNumber(staking.staked)}</div>
-                <div>$ {formatLargeNumber(staking.staked * staking.price)}</div>
-              </div>
-              <div className={styles.boxesBox}>
-                <div>Pending Rewards</div>
-                <div>{formatLargeNumber(staking.pending)}</div>
-                <div>
-                  $ {formatLargeNumber(staking.pending * staking.price)}
-                </div>
-              </div>
-            </div>
-            <div className={styles.boxes}>
-              <div className={styles.boxesBox}>
-                <div>Balance</div>
-                <div>{formatLargeNumber(staking.balance)}</div>
-                <div>
-                  $ {formatLargeNumber(staking.balance * staking.price)}
-                </div>
-              </div>
-              <div className={styles.boxesBox}>
-                <div>XRUNE Price</div>
-                <div>$ {staking.price.toFixed(4)}</div>
-              </div>
-            </div>
-          </div>
-        ) : null}
-
-        {sushiPosition && sushiHistory ? (
-          <div>
-            <h2>SushiSwap XRUNE-ETH LP</h2>
-            <div className={styles.boxes}>
-              <div className={styles.boxesBox}>
-                <div>LP Position Value</div>
-                <div>$ {sushiPosition.value.toFixed(2)}</div>
-              </div>
-              <div className={styles.boxesBox}>
-                <div>Average APY</div>
-                <div>
-                  {formatLargeNumber(
-                    aprdToApy(
-                      sushiHistory.reduce((t, v) => t + v.growth, 0) /
-                        (sushiHistory.length - 1)
-                    ) * 100
-                  )}{" "}
-                  %
-                </div>
-              </div>
-            </div>
-            <table className={styles.table}>
-              <thead>
-                <tr>
-                  <th style={{ textAlign: "left" }}>Date</th>
-                  <th>XRUNE $</th>
-                  <th>XRUNE #</th>
-                  <th>ETH #</th>
-                  <th>Value $</th>
-                  <th>Rewards $</th>
-                  <th>Rewards %</th>
-                  <th>Change $</th>
-                  <th>Change %</th>
-                  <th>Yearly APR %</th>
-                  <th>Yearly APY %</th>
-                </tr>
-              </thead>
-              <tbody>
-                {sushiHistory.map((h) => (
-                  <tr key={h.date}>
-                    <td style={{ textAlign: "left" }}>{formatDate(h.date)}</td>
-                    <td>$ {parseFloat(h.price).toFixed(3)}</td>
-                    <td>{h.amountToken.toFixed(1)}</td>
-                    <td>{h.amountEth.toFixed(1)}</td>
-                    <td>$ {h.value.toFixed(3)}</td>
-                    <td>$ {h.tsRewards.toFixed(1)}</td>
-                    <td>{(h.tsRewardsApy * 100).toFixed(0)} %</td>
-                    <td>$ {(h.value * h.growth).toFixed(1)}</td>
-                    <td>{(h.growth * 100).toFixed(1)} %</td>
-                    <td>{(h.growth * 100 * 365).toFixed(1)} %</td>
-                    <td>{formatLargeNumber(aprdToApy(h.growth) * 100)} %</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        ) : null}
-
-        <p style={{ marginTop: "80px" }}>
-          This app supports LP positions on THORChain, SushiSwap & XRUNE
-          Staking.
-          <br />
-          <br />
-          Enter a &quot;thor0123...&quot; address for THORChain LP or an
-          Ethereum &quot;0x123...&quot; address for SushiSwap LP & single sided
-          XRUNE staking.
-        </p>
-      </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://www.thorstarter.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Thorstarter
-        </a>
-      </footer>
-    </div>
+        </section>
+      </Layout>
+    </>
+    // <div className={styles.container}>
+    //
+    //
+    //   <main className={styles.main}>
+    //     <h1 className={styles.title}>Rewards Dashboard</h1>
+    //
+    //     <p className={styles.addressInput}>
+    //       <input
+    //         value={address}
+    //         onChange={(e) => setAddress(e.target.value)}
+    //         placeholder="thor123... or 0x123..."
+    //       />
+    //       <button onClick={onLoad}>Load</button>
+    //     </p>
+    //
+    //     {error ? (
+    //       <p style={{ marginTop: "16px", textAlign: "center", color: "red" }}>
+    //         {error}
+    //       </p>
+    //     ) : null}
+    //     {loading ? (
+    //       <p style={{ marginTop: "16px", textAlign: "center" }}>Loading...</p>
+    //     ) : null}
+    //
+    //     {position ? (
+    //       <div>
+    //         <h2>THORChain XRUNE-RUNE LP</h2>
+    //         <div className={styles.boxes}>
+    //           <div className={styles.boxesBox}>
+    //             <div>LP Position Value</div>
+    //             <div>$ {history[0].value.toFixed(2)}</div>
+    //           </div>
+    //           <div className={styles.boxesBox}>
+    //             <div>Average APY</div>
+    //             <div>
+    //               {formatLargeNumber(
+    //                 aprdToApy(
+    //                   history.reduce((t, v) => t + v.growth, 0) /
+    //                     (history.length - 1)
+    //                 ) * 100
+    //               )}{" "}
+    //               %
+    //             </div>
+    //           </div>
+    //         </div>
+    //         <table className={styles.table}>
+    //           <thead>
+    //             <tr>
+    //               <th style={{ textAlign: "left" }}>Date</th>
+    //               <th>XRUNE $</th>
+    //               <th>XRUNE #</th>
+    //               <th>RUNE #</th>
+    //               <th>Value $</th>
+    //               <th>Rewards $</th>
+    //               <th>Rewards %</th>
+    //               <th>Change $</th>
+    //               <th>Change %</th>
+    //               <th>Yearly APR %</th>
+    //               <th>Yearly APY %</th>
+    //             </tr>
+    //           </thead>
+    //           <tbody>
+    //             {history.map((h) => (
+    //               <tr key={h.pool.startTime}>
+    //                 <td style={{ textAlign: "left" }}>
+    //                   {formatDate(h.pool.startTime)}
+    //                 </td>
+    //                 <td>$ {parseFloat(h.pool.assetPriceUSD).toFixed(3)}</td>
+    //                 <td>{h.assetAmount.toFixed(1)}</td>
+    //                 <td>{h.runeAmount.toFixed(1)}</td>
+    //                 <td>$ {h.value.toFixed(3)}</td>
+    //                 <td>$ {h.tsRewards.toFixed(1)}</td>
+    //                 <td>{(h.tsRewardsApy * 100).toFixed(0)} %</td>
+    //                 <td>$ {(h.value * h.growth).toFixed(1)}</td>
+    //                 <td>{(h.growth * 100).toFixed(1)} %</td>
+    //                 <td>{(h.growth * 100 * 365).toFixed(1)} %</td>
+    //                 <td>{formatLargeNumber(aprdToApy(h.growth) * 100)} %</td>
+    //               </tr>
+    //             ))}
+    //           </tbody>
+    //         </table>
+    //       </div>
+    //     ) : null}
+    //
+    //     {staking ? (
+    //       <div style={{ width: "100%" }}>
+    //         <h2>Staking (Single Sided XRUNE)</h2>
+    //         <div className={styles.boxes}>
+    //           <div className={styles.boxesBox}>
+    //             <div>Staked</div>
+    //             <div>{formatLargeNumber(staking.staked)}</div>
+    //             <div>$ {formatLargeNumber(staking.staked * staking.price)}</div>
+    //           </div>
+    //           <div className={styles.boxesBox}>
+    //             <div>Pending Rewards</div>
+    //             <div>{formatLargeNumber(staking.pending)}</div>
+    //             <div>
+    //               $ {formatLargeNumber(staking.pending * staking.price)}
+    //             </div>
+    //           </div>
+    //         </div>
+    //         <div className={styles.boxes}>
+    //           <div className={styles.boxesBox}>
+    //             <div>Balance</div>
+    //             <div>{formatLargeNumber(staking.balance)}</div>
+    //             <div>
+    //               $ {formatLargeNumber(staking.balance * staking.price)}
+    //             </div>
+    //           </div>
+    //           <div className={styles.boxesBox}>
+    //             <div>XRUNE Price</div>
+    //             <div>$ {staking.price.toFixed(4)}</div>
+    //           </div>
+    //         </div>
+    //       </div>
+    //     ) : null}
+    //
+    //     {sushiPosition && sushiHistory ? (
+    //       <div>
+    //         <h2>SushiSwap XRUNE-ETH LP</h2>
+    //         <div className={styles.boxes}>
+    //           <div className={styles.boxesBox}>
+    //             <div>LP Position Value</div>
+    //             <div>$ {sushiPosition.value.toFixed(2)}</div>
+    //           </div>
+    //           <div className={styles.boxesBox}>
+    //             <div>Average APY</div>
+    //             <div>
+    //               {formatLargeNumber(
+    //                 aprdToApy(
+    //                   sushiHistory.reduce((t, v) => t + v.growth, 0) /
+    //                     (sushiHistory.length - 1)
+    //                 ) * 100
+    //               )}{" "}
+    //               %
+    //             </div>
+    //           </div>
+    //         </div>
+    //         <table className={styles.table}>
+    //           <thead>
+    //             <tr>
+    //               <th style={{ textAlign: "left" }}>Date</th>
+    //               <th>XRUNE $</th>
+    //               <th>XRUNE #</th>
+    //               <th>ETH #</th>
+    //               <th>Value $</th>
+    //               <th>Rewards $</th>
+    //               <th>Rewards %</th>
+    //               <th>Change $</th>
+    //               <th>Change %</th>
+    //               <th>Yearly APR %</th>
+    //               <th>Yearly APY %</th>
+    //             </tr>
+    //           </thead>
+    //           <tbody>
+    //             {sushiHistory.map((h) => (
+    //               <tr key={h.date}>
+    //                 <td style={{ textAlign: "left" }}>{formatDate(h.date)}</td>
+    //                 <td>$ {parseFloat(h.price).toFixed(3)}</td>
+    //                 <td>{h.amountToken.toFixed(1)}</td>
+    //                 <td>{h.amountEth.toFixed(1)}</td>
+    //                 <td>$ {h.value.toFixed(3)}</td>
+    //                 <td>$ {h.tsRewards.toFixed(1)}</td>
+    //                 <td>{(h.tsRewardsApy * 100).toFixed(0)} %</td>
+    //                 <td>$ {(h.value * h.growth).toFixed(1)}</td>
+    //                 <td>{(h.growth * 100).toFixed(1)} %</td>
+    //                 <td>{(h.growth * 100 * 365).toFixed(1)} %</td>
+    //                 <td>{formatLargeNumber(aprdToApy(h.growth) * 100)} %</td>
+    //               </tr>
+    //             ))}
+    //           </tbody>
+    //         </table>
+    //       </div>
+    //     ) : null}
+    //
+    //     <p style={{ marginTop: "80px" }}>
+    //       This app supports LP positions on THORChain, SushiSwap & XRUNE
+    //       Staking.
+    //       <br />
+    //       <br />
+    //       Enter a &quot;thor0123...&quot; address for THORChain LP or an
+    //       Ethereum &quot;0x123...&quot; address for SushiSwap LP & single sided
+    //       XRUNE staking.
+    //     </p>
+    //   </main>
+    //
+    //   <footer className={styles.footer}>
+    //     <a
+    //       href="https://www.thorstarter.org"
+    //       target="_blank"
+    //       rel="noopener noreferrer"
+    //     >
+    //       Thorstarter
+    //     </a>
+    //   </footer>
+    // </div>
   );
 }

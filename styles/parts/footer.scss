@@ -1,0 +1,101 @@
+.footer {
+	text-align: center;
+	margin-top: 150px;
+	padding-bottom: 30px;
+	.logo {
+		margin-left: auto;
+		margin-right: auto;
+	}
+	@include media($phablet) {
+		padding-top: 40px;
+		margin-top: 40px;
+	}
+}
+
+.secondary-menu {
+	margin-top: 15px;
+	ul {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		font-size: 18px;
+		font-weight: 500;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		li:not(:last-child) {
+			margin-right: 50px;
+		}
+		a {
+			display: inline-block;
+			color: var(--white-50);
+			&:hover {
+				color: var(--white);
+			}
+		}
+	}
+	@include media($phablet) {
+		ul {
+			display: block;
+			column-count: 2;
+			column-gap: 0;
+			li {
+				margin-bottom: 24px;
+				&:not(:last-child) {
+					margin-right: 0;
+				}
+			}
+		}
+	}
+}
+
+.copyright {
+	display: block;
+	font-size: 14px;
+	color: #2C404F;
+	margin-top: 47px;
+}
+
+.lightning {
+	position: fixed;
+	z-index: var(--z5);
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	pointer-events: none;
+	opacity: 0;
+	background-color: var(--white);
+	img {
+		position: absolute;
+		top: 0;
+		&:first-child {
+			left: 10.5%;
+		}
+		&:last-child {
+			right: 19.5%;
+		}
+	}
+	&.is-animated {
+		animation: flash ease-out 3s forwards;
+	}
+	@include media($tablet) {
+		img {
+			left: 5%;
+			max-width: 90%;
+			&:last-child {
+				display: none;
+			}
+		}
+	}
+}
+
+@keyframes flash {
+	from { opacity: 0; }
+	11% { opacity: 0; }
+	16% { opacity: 0.6; }
+	21% { opacity: 0.2; }
+	26% { opacity: 1; }
+	30% { opacity: 0; }
+	to { opacity: 0; }
+}

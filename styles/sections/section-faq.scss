@@ -1,0 +1,10 @@
+.section-faq {
+	padding: 30px 40px;
+	border: 2px solid var(--brand-dark);
+	max-width: 850px;
+	margin: 40px auto 60px;
+	&__headline {
+		margin: 0 0 20px;
+		font-size: 36px;
+	}
+}

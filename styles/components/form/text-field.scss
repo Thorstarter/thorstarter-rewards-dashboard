@@ -1,0 +1,125 @@
+.text-field {
+	&__holder {
+		position: relative;
+	}
+	&__input, &__select {
+		width: 100%;
+		height: 60px;
+		border: 1px solid #1C3548;
+		background-color: transparent;
+		padding: 0 22px;
+		font-size: 18px;
+		line-height: normal;
+		color: var(--white);
+		transition: var(--transition);
+		&:focus {
+			box-shadow: 0 0 0 2px var(--brand-10);
+		}
+		&::placeholder {
+			color: var(--white);
+		}
+		&.error {
+			border-color: var(--red);
+		}
+	}
+	&__input[type="number"] {
+		&::-webkit-outer-spin-button,
+		&::-webkit-inner-spin-button {
+			appearance: none;
+			margin: 0;
+		}
+	}
+	&__sign {
+		font-size: 18px;
+		line-height: 1;
+		color: var(--white-50);
+		position: absolute;
+		top: 50%;
+		transform: translateY(-50%);
+		right: 22px;
+		pointer-events: none;
+	}
+	&__select {
+		appearance: none;
+		background: url('/static/img/icons/select-arrow.svg') no-repeat center right 22px transparent;
+		cursor: pointer;
+	}
+	&[data-social] &__input {
+		padding-left: 68px;
+	}
+	&[data-social] &__holder:before {
+		content: '';
+		width: 24px;
+		height: 24px;
+		background-repeat: no-repeat;
+		background-size: contain;
+		background-position: center;
+		position: absolute;
+		top: 50%;
+		left: 22px;
+		transform: translateY(-50%);
+	}
+	&[data-social="site"] &__holder:before {
+		background-image: url('/static/img/icons/input-site.svg');
+	}
+	&[data-social="twitter"] &__holder:before {
+		background-image: url('/static/img/icons/input-twitter.svg');
+	}
+	&[data-social="medium"] &__holder:before {
+		background-image: url('/static/img/icons/input-medium.svg');
+	}
+	&[data-social="telegram"] &__holder:before {
+		background-image: url('/static/img/icons/input-telegram.svg');
+	}
+	&[data-social="github"] &__holder:before {
+		background-image: url('/static/img/icons/input-github.svg');
+	}
+	&[data-social="url"] &__holder:before {
+		background-image: url('/static/img/icons/input-url.svg');
+	}
+}
+
+.pika-single.dark-theme {
+	color: #fff;
+	background: #333;
+	border: 1px solid #666;
+	border-bottom-color: #999;
+	.pika-label {
+		background-color: #333;
+	}
+	.pika-prev, .pika-next {
+		filter: invert(1);
+	}
+	.pika-table {
+		th {
+			color: #999;
+		}
+		abbr {
+			cursor: initial;
+		}
+	}
+	.pika-button {
+		color: #fff;
+		background: #222;
+		text-align: center;
+	}
+	.pika-week {
+		color: #999;
+	}
+	.is-today .pika-button {
+		color: #33aaff;
+	}
+	.is-selected .pika-button {
+		color: #fff;
+		background: #33aaff;
+		box-shadow: inset 0 1px 3px #178fe5;
+	}
+	.is-disabled .pika-button {
+		color: #999;
+		opacity: .3;
+	}
+	.pika-button:hover {
+		color: #fff !important;
+		background: #ff8000 !important;
+	}
+}

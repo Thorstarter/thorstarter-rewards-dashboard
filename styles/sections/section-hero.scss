@@ -1,0 +1,135 @@
+.section-hero {
+	height: 100vh;
+	min-height: 768px;
+	display: flex;
+	align-items: center;
+	padding-top: 32px;
+	color: #ECECEC;
+	&--countdown {
+		height: auto;
+		min-height: unset;
+		display: block;
+		padding-top: 180px;
+	}
+	&--brand {
+		padding-top: 250px;
+		align-items: stretch;
+		height: auto;
+		.wrap {
+			display: flex;
+			flex-direction: column;
+		}
+	}
+	.section-title {
+		font-size: 50px;
+		max-width: 780px;
+		&.tac {
+			margin-left: auto;
+			margin-right: auto;
+			max-width: 980px;
+		}
+	}
+	.section-desc {
+		max-width: 740px;
+		margin-top: 30px;
+		&.tac {
+			margin-left: auto;
+			margin-right: auto;
+		}
+	}
+	.btn {
+		margin-top: 50px;
+	}
+	.countdown {
+		margin-top: 42px;
+		min-height: 104px;
+	}
+	.cards-grid {
+		margin-top: 56px;
+	}
+	.grid {
+		margin-top: 90px;
+		& + .grid {
+			margin-top: 65px;
+		}
+	}
+	@include media($laptop-small) {
+		min-height: 600px;
+		align-items: flex-end;
+		padding-bottom: 50px;
+		&--countdown {
+			min-height: unset;
+		}
+		.section-title {
+			font-size: 44px;
+		}
+		.countdown {
+			min-height: 80px;
+		}
+	}
+	@include media($tablet) {
+		.countdown {
+			min-height: 68px;
+		}
+	}
+	@include media($phablet) {
+		display: block;
+		min-height: auto;
+		height: auto;
+		padding: 40px 0 60px;
+		&--brand {
+			padding-top: 40px;
+			.section-title br {
+				display: block !important;
+			}
+		}
+		.section-title {
+			font-size: 28px;
+			br {
+				display: none;
+			}
+		}
+	}
+}
+
+.page-ido {
+	.section-hero {
+		min-height: unset;
+		padding-top: 150px;
+		.section-title {
+			font-size: 56px;
+		}
+	}
+	.section-hero--brand {
+		.wrap img {
+			display: block;
+			margin: 20px auto 0;
+		}
+		.section-desc {
+			margin-top: 10px;
+		}
+	}
+	.section-hero--countdown {
+		padding-top: 80px;
+	}
+	@include media($laptop-small) {
+		.section-hero {
+			.section-title {
+				font-size: 44px;
+			}
+		}
+	}
+	@include media($phablet) {
+		.section-hero {
+			.section-title {
+				font-size: 28px;
+			}
+		}
+		.section-hero--brand .wrap img {
+			margin: 30px auto 0 !important;
+		}
+		.section-hero--countdown {
+			padding-top: 80px;
+		}
+	}
+}
