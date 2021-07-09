@@ -16,12 +16,51 @@
 	}
 }
 
-.dashboard-section {
-	margin: 48px auto 0;
+.rewards-dashboard-loop {
+	margin-top: 48px;
+}
+
+.rewards-dashboard {
+	border: 1px solid #1C3548;
+	margin: 0 auto;
 	width: 100%;
 	max-width: 880px;
+	padding: 15px 20px;
+	&:not(:last-of-type) {
+		margin-bottom: 24px;
+	}
+	&__head {
+		font-weight: 700;
+		font-size: 20px;
+		position: relative;
+		cursor: pointer;
+		&.is-pressed:after {
+			transform: translateY(-50%) rotate(45deg);
+		}
+		&:after {
+			content: '';
+			position: absolute;
+			top: 50%;
+			right: 0;
+			transform: translateY(-50%) rotate(0deg);
+			width: 20px;
+			height: 20px;
+			background: url('/static/img/icons/plus-white.svg') no-repeat center / contain;
+			transition: var(--transition);
+		}
+	}
+	&__body {
+		display: none;
+		padding-top: 24px;
+	}
+}
+
+.dashboard-section {
+	&:not(:first-child) {
+		margin-top: 32px;
+	}
 	.section-title {
-		font-size: 30px !important;
+		font-size: 18px !important;
 		display: flex;
 		align-items: center;
 		justify-content: flex-start;
@@ -35,7 +74,8 @@
 		}
 	}
 	.cards-grid {
-		margin-top: 25px !important;
+		grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+		margin-top: 10px !important;
 	}
 	@include media($phone) {
 		.section-title {
