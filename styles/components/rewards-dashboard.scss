@@ -34,6 +34,8 @@
 		font-size: 20px;
 		position: relative;
 		cursor: pointer;
+		word-break: break-word;
+		padding-right: 24px;
 		&.is-pressed:after {
 			transform: translateY(-50%) rotate(45deg);
 		}
@@ -77,12 +79,15 @@
 		grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
 		margin-top: 10px !important;
 	}
-	@include media($phone) {
-		.section-title {
-			font-size: 22px !important;
+	@include media($tablet) {
+		.cards-grid {
+			grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
 		}
+	}
+	@include media($phone) {
 		.cards-grid {
 			margin-top: 15px !important;
+			grid-template-columns: 1fr;
 		}
 	}
 }
@@ -105,6 +110,18 @@
 		font-size: 18px;
 		line-height: 1;
 		margin-top: 8px;
+	}
+	@include media($phone) {
+		padding: 20px 15px;
+		&__caption {
+			font-size: 16px;
+		}
+		&__value {
+			font-size: 24px;
+		}
+		&__foot {
+			font-size: 14px;
+		}
 	}
 }
 
