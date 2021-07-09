@@ -288,6 +288,7 @@ export default function Home() {
       <Head>
         <title>Thorstarter Rewards Dashboard</title>
         <meta name="description" content="Visualize your liquidity mining rewards"/>
+        <meta property="og:image" content="https://rewards-dashboard.thorstarter.org/og.png"/>
       </Head>
       <Layout>
         <section className="section-hero section-hero--brand">
