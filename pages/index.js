@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import * as ethers from "ethers";
 import Head from "next/head";
 import Image from "next/image";
@@ -99,6 +99,7 @@ export default function Home() {
   const [address, setAddress] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const loop = useRef(null);
 
   async function loadLpThorchain(address) {
     try {
@@ -284,16 +285,25 @@ export default function Home() {
       setSavedAddresses(prevState => ([...prevState, address]));
     }
 
-    load(address);
+    // load(address);
     setAddress('');
   }
 
-  function onClickHeading(e) {
-    const head = e.target;
+  function onClickHeading(e, parent = false) {
+    const head = parent ? e.target.closest('.js__headline') : e.target;
     const body = head.nextElementSibling;
+
+    if(parent) {
+      head.closest('[data-slidetoggle]').style.height = 'auto';
+    }
 
     head.classList.toggle('is-pressed');
     slideToggle.slideToggle(body, 250);
+  }
+
+  function onRemoveAddress(address) {
+    const newArray = savedAddresses.filter(item => item !== address);
+    setSavedAddresses(newArray);
   }
 
   // useEffect(() => {
@@ -306,10 +316,11 @@ export default function Home() {
 
   useEffect(() => {
     document.body.classList.add('no-bg-header', 'no-bg-footer');
-    savedAddresses && savedAddresses.forEach(address => load(address));
   }, []);
 
   useEffect(() => {
+    loop.current.innerHTML = '';
+    savedAddresses && savedAddresses.forEach(address => load(address));
     lscache.set('thorstarter-saved-addresses', savedAddresses);
   }, [savedAddresses]);
 
@@ -351,7 +362,7 @@ export default function Home() {
                 </div>
             ) : null}
 
-            <div className="rewards-dashboard-loop">
+            <div className="rewards-dashboard-loop" ref={loop}>
               {list.length > 0 && list.reverse().map((item, i) => {
                 return (
                   <div className="rewards-dashboard" key={i}>
@@ -361,29 +372,33 @@ export default function Home() {
                         <>
                           {Object.keys(item.staking).length > 0 && (
                             <div className="dashboard-section">
-                              <h3 className="section-title">
-                                <Image src="/static/img/icons/ts.svg" alt="" width={15} height={40}/>
-                                <a href="https://thorstarter.org/stake" target="_blank" rel="noreferrer">Staking</a> &nbsp;(Single Sided XRUNE)
-                              </h3>
-                              <div className="cards-grid">
-                                <div className="dashboard-block tac">
-                                  <div className="dashboard-block__caption">Staked</div>
-                                  <div className="dashboard-block__value">{formatLargeNumber(item.staking.staked)}</div>
-                                  <div className="dashboard-block__foot">$ {formatLargeNumber(item.staking.staked * item.staking.price)}</div>
-                                </div>
-                                <div className="dashboard-block tac">
-                                  <div className="dashboard-block__caption">Pending Rewards</div>
-                                  <div className="dashboard-block__value">{formatLargeNumber(item.staking.pending)}</div>
-                                  <div className="dashboard-block__foot">$ {formatLargeNumber(item.staking.pending * item.staking.price)}</div>
-                                </div>
-                                <div className="dashboard-block tac">
-                                  <div className="dashboard-block__caption">Balance</div>
-                                  <div className="dashboard-block__value">{formatLargeNumber(item.staking.balance)}</div>
-                                  <div className="dashboard-block__foot">$ {formatLargeNumber(item.staking.balance * item.staking.price)}</div>
-                                </div>
-                                <div className="dashboard-block tac">
-                                  <div className="dashboard-block__caption">XRUNE Price</div>
-                                  <div className="dashboard-block__value">$ {item.staking.price.toFixed(4)}</div>
+                              <div className="dashboard-section__head js__headline" onClick={e => onClickHeading(e, true)}>
+                                <h3 className="section-title">
+                                  <Image src="/static/img/icons/ts.svg" alt="" width={15} height={40}/>
+                                  <a href="https://thorstarter.org/stake" target="_blank" rel="noreferrer">Staking</a> &nbsp;(Single Sided XRUNE)
+                                </h3>
+                              </div>
+                              <div style={{display: 'none'}}>
+                                <div className="cards-grid">
+                                  <div className="dashboard-block tac">
+                                    <div className="dashboard-block__caption">Staked</div>
+                                    <div className="dashboard-block__value">{formatLargeNumber(item.staking.staked)}</div>
+                                    <div className="dashboard-block__foot">$ {formatLargeNumber(item.staking.staked * item.staking.price)}</div>
+                                  </div>
+                                  <div className="dashboard-block tac">
+                                    <div className="dashboard-block__caption">Pending Rewards</div>
+                                    <div className="dashboard-block__value">{formatLargeNumber(item.staking.pending)}</div>
+                                    <div className="dashboard-block__foot">$ {formatLargeNumber(item.staking.pending * item.staking.price)}</div>
+                                  </div>
+                                  <div className="dashboard-block tac">
+                                    <div className="dashboard-block__caption">Balance</div>
+                                    <div className="dashboard-block__value">{formatLargeNumber(item.staking.balance)}</div>
+                                    <div className="dashboard-block__foot">$ {formatLargeNumber(item.staking.balance * item.staking.price)}</div>
+                                  </div>
+                                  <div className="dashboard-block tac">
+                                    <div className="dashboard-block__caption">XRUNE Price</div>
+                                    <div className="dashboard-block__value">$ {item.staking.price.toFixed(4)}</div>
+                                  </div>
                                 </div>
                               </div>
                             </div>
@@ -391,25 +406,29 @@ export default function Home() {
                           {Object.keys(item.history).length > 0 && Object.keys(item.position).length > 0 && (
                             <>
                               <div className="dashboard-section">
-                                <h3 className="section-title">
-                                  <Image src="/static/img/icons/sushiswap.png" alt="" width={32} height={32}/>
-                                  <a href="https://app.sushi.com/add/ETH/0x69fa0feE221AD11012BAb0FdB45d444D3D2Ce71c" target="_blank" rel="noreferrer">SushiSwap XRUNE-ETH LP</a>
-                                </h3>
-                                <div className="cards-grid">
-                                  <div className="dashboard-block tac">
-                                    <div className="dashboard-block__caption">LP Position Value</div>
-                                    <div className="dashboard-block__value">$ {item.position.value.toFixed(2)}</div>
-                                  </div>
-                                  <div className="dashboard-block tac">
-                                    <div className="dashboard-block__caption">Average APY</div>
-                                    <div className="dashboard-block__value">
-                                      {formatLargeNumber(
-                                        aprdToApy(
-                                          item.history.reduce((t, v) => t + v.growth, 0) /
-                                          (item.history.length - 1)
-                                        ) * 100
-                                      )}{" "}
-                                      %
+                                <div className="dashboard-section__head js__headline" onClick={e => onClickHeading(e, true)}>
+                                  <h3 className="section-title">
+                                    <Image src="/static/img/icons/sushiswap.png" alt="" width={32} height={32}/>
+                                    <a href="https://app.sushi.com/add/ETH/0x69fa0feE221AD11012BAb0FdB45d444D3D2Ce71c" target="_blank" rel="noreferrer">SushiSwap XRUNE-ETH LP</a>
+                                  </h3>
+                                </div>
+                                <div style={{display: 'none'}}>
+                                  <div className="cards-grid">
+                                    <div className="dashboard-block tac">
+                                      <div className="dashboard-block__caption">LP Position Value</div>
+                                      <div className="dashboard-block__value">$ {item.position.value.toFixed(2)}</div>
+                                    </div>
+                                    <div className="dashboard-block tac">
+                                      <div className="dashboard-block__caption">Average APY</div>
+                                      <div className="dashboard-block__value">
+                                        {formatLargeNumber(
+                                          aprdToApy(
+                                            item.history.reduce((t, v) => t + v.growth, 0) /
+                                            (item.history.length - 1)
+                                          ) * 100
+                                        )}{" "}
+                                        %
+                                      </div>
                                     </div>
                                   </div>
                                 </div>
@@ -455,28 +474,35 @@ export default function Home() {
                               </div>
                             </>
                           )}
+                          <div className="rewards-dashboard__foot tar">
+                            <button type="button" className="btn btn--small btn--remove" onClick={() => onRemoveAddress(item.address)}>Remove address</button>
+                          </div>
                         </>
                       ) : item.type === 'thor' ? (
                         <>
                           {Object.keys(item.position).length > 0 && (
                             <>
                               <div className="dashboard-section">
-                                <h3 className="section-title">THORChain XRUNE-RUNE LP</h3>
-                                <div className="cards-grid">
-                                  <div className="dashboard-block tac">
-                                    <div className="dashboard-block__caption">LP Position Value</div>
-                                    <div className="dashboard-block__value">$ {item.history[0].value.toFixed(2)}</div>
-                                  </div>
-                                  <div className="dashboard-block tac">
-                                    <div className="dashboard-block__caption">Average APY</div>
-                                    <div className="dashboard-block__value">
-                                      {formatLargeNumber(
-                                        aprdToApy(
-                                          item.history.reduce((t, v) => t + v.growth, 0) /
-                                          (item.history.length - 1)
-                                        ) * 100
-                                      )}{" "}
-                                      %
+                                <div className="dashboard-section__head js__headline" onClick={e => onClickHeading(e, true)}>
+                                  <h3 className="section-title">THORChain XRUNE-RUNE LP</h3>
+                                </div>
+                                <div style={{display: 'none'}}>
+                                  <div className="cards-grid">
+                                    <div className="dashboard-block tac">
+                                      <div className="dashboard-block__caption">LP Position Value</div>
+                                      <div className="dashboard-block__value">$ {item.history[0].value.toFixed(2)}</div>
+                                    </div>
+                                    <div className="dashboard-block tac">
+                                      <div className="dashboard-block__caption">Average APY</div>
+                                      <div className="dashboard-block__value">
+                                        {formatLargeNumber(
+                                          aprdToApy(
+                                            item.history.reduce((t, v) => t + v.growth, 0) /
+                                            (item.history.length - 1)
+                                          ) * 100
+                                        )}{" "}
+                                        %
+                                      </div>
                                     </div>
                                   </div>
                                 </div>
@@ -521,6 +547,9 @@ export default function Home() {
                                     </tbody>
                                   </table>
                                 </div>
+                              </div>
+                              <div className="rewards-dashboard__foot tar">
+                                <button type="button" className="btn btn--small btn--remove" onClick={() => onRemoveAddress(item.address)}>Remove address</button>
                               </div>
                             </>
                           )}

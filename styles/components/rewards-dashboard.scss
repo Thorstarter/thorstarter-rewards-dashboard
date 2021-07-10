@@ -55,11 +55,38 @@
 		display: none;
 		padding-top: 24px;
 	}
+	&__foot {
+		padding-top: 24px;
+		.btn {
+			min-width: unset;
+			padding: 0 16px;
+			margin-top: 0 !important;
+		}
+	}
 }
 
 .dashboard-section {
 	&:not(:first-child) {
 		margin-top: 32px;
+	}
+	&__head {
+		position: relative;
+		cursor: pointer;
+		&:after {
+			content: '';
+			position: absolute;
+			top: calc(50% - 6px);
+			right: 0;
+			width: 12px;
+			height: 12px;
+			background: url('/static/img/icons/select-arrow.svg') no-repeat center / contain;
+			transform: rotate(0deg);
+			transition: var(--transition);
+			will-change: transform;
+		}
+		&.is-pressed:after {
+			transform: rotate(-180deg);
+		}
 	}
 	.section-title {
 		font-size: 18px !important;
