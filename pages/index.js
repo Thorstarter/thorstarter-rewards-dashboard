@@ -7,6 +7,7 @@ import styles from "../styles/Home.module.css";
 import { tokenAbi, stakingAbi, sushiSwapPoolAbi } from "../utils/abis";
 
 // test address thor16slycxn5twp2454pu785n34vq0u4mag8588xcy
+// test eth address 0x120fb4D4b80DC98BF27341f0D98F0CCedFEeFDd4
 
 const API = "https://midgard.thorchain.info/v2";
 const POOL = "ETH.XRUNE-0X69FA0FEE221AD11012BAB0FDB45D444D3D2CE71C";
@@ -29,6 +30,11 @@ const Staking = new ethers.Contract(
 const SushiSwapPool = new ethers.Contract(
   "0x95cfa1f48fad82232772d3b1415ad4393517f3b5",
   sushiSwapPoolAbi,
+  provider
+);
+const LpToken = new ethers.Contract(
+  "0x95cfa1f48fad82232772d3b1415ad4393517f3b5",
+  tokenAbi,
   provider
 );
 
@@ -188,6 +194,21 @@ export default function Home() {
           }),
         }
       ).then((r) => r.json());
+
+      if ((data.data.liquidityPosition?.snapshots || []).length === 0) {
+        const lpTokensBalance = parseFloat(formatUnits(await LpToken.balanceOf(address)));
+        console.log(lpTokensBalance);
+        if (lpTokensBalance === 0) {
+          return;
+        }
+        data.data.liquidityPosition = {
+          snapshots: [{
+            timestamp: 0,
+            liquidityTokenBalance: lpTokensBalance,
+          }],
+        };
+      }
+
       const history = [];
       for (let day of data.data.pair.dayData.reverse()) {
         const position = data.data.liquidityPosition?.snapshots.find(
@@ -237,12 +258,16 @@ export default function Home() {
       const balance = await Token.balanceOf(address);
       const staked = (await Staking.userInfo(0, address))[0];
       const pending = await Staking.pendingRewards(0, address);
-      setStaking({
+      const staking = {
         balance: parseFloat(formatUnits(balance)),
         staked: parseFloat(formatUnits(staked)),
         pending: parseFloat(formatUnits(pending)),
         price: xrunePrice,
-      });
+      };
+      if (staking.balance === 0 && staking.staked === 0) {
+        return;
+      }
+      setStaking(staking);
     } catch (err) {
       setError("Error: " + err.toString());
     } finally {
@@ -251,15 +276,15 @@ export default function Home() {
   }
 
   async function load(address) {
-    setPosition();
-    setHistory();
-    setSushiPosition();
-    setSushiHistory();
-    setStaking();
     if (address.startsWith("thor")) {
+      setPosition();
+      setHistory();
       loadLpThorchain(address);
     }
     if (address.startsWith("0x")) {
+      setSushiPosition();
+      setSushiHistory();
+      setStaking();
       loadLpSushiSwap(address);
       loadStaking(address);
     }
@@ -268,14 +293,14 @@ export default function Home() {
   function onLoad(e) {
     e.preventDefault();
     window.history.pushState("", null, "?address=" + address);
-    load(address);
+    load(address.trim());
   }
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     if (params.get("address")) {
-      setAddress(params.get("address"));
-      load(params.get("address"));
+      setAddress(params.get("address").trim());
+      load(params.get("address").trim());
     }
   }, []);
 
