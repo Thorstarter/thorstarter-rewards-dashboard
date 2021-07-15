@@ -153,9 +153,14 @@ export default function Home() {
     } catch (err) {
       if (err.toString().includes("404")) {
         setError("No XRUNE LP found for this address.");
-        return;
+        return {
+          error: 'No XRUNE LP found for this address.'
+        }
       }
       setError("Error: " + err.toString());
+      return {
+        error: err.toString()
+      }
     } finally {
       setLoading(false);
     }
@@ -229,6 +234,9 @@ export default function Home() {
       };
     } catch (err) {
       setError("Error: " + err.toString());
+      return {
+        error: err.toString()
+      }
     } finally {
       setLoading(false);
     }
@@ -252,6 +260,9 @@ export default function Home() {
       };
     } catch (err) {
       setError("Error: " + err.toString());
+      return {
+        error: err.toString()
+      }
     } finally {
       setLoading(false);
     }
@@ -271,12 +282,14 @@ export default function Home() {
         staking: await loadStaking(address),
         address: address
       };
+      console.log(result);
       setList(prevState => ([...prevState, result]))
     }
   }
 
   function onLoad(e) {
     e.preventDefault();
+    e.stopPropagation();
     // window.history.pushState("", null, "?address=" + address);
 
     if(!savedAddresses) {
@@ -298,7 +311,9 @@ export default function Home() {
     }
 
     head.classList.toggle('is-pressed');
-    slideToggle.slideToggle(body, 250);
+    try {
+      slideToggle.slideToggle(body, 250);
+    } catch (e) {}
   }
 
   function onRemoveAddress(address) {
@@ -366,7 +381,10 @@ export default function Home() {
               {list.length > 0 && list.reverse().map((item, i) => {
                 return (
                   <div className="rewards-dashboard" key={i}>
-                    <div className="rewards-dashboard__head" onClick={(e) => onClickHeading(e)}>{item.address}</div>
+                    <div className="rewards-dashboard__head" onClick={(e) => onClickHeading(e)}>
+                      {item.address}
+                      <button type="button" onClick={() => onRemoveAddress(item.address)}><IconRemove/>Remove</button>
+                    </div>
                     <div className="rewards-dashboard__body">
                       {item.type === 'x0' ? (
                         <>
@@ -431,52 +449,48 @@ export default function Home() {
                                       </div>
                                     </div>
                                   </div>
-                                </div>
-                              </div>
-
-                              <div className="dashboard-section">
-                                <div className="dashboard-table">
-                                  <table>
-                                    <thead>
-                                    <tr>
-                                      <th style={{ textAlign: "left" }}>Date</th>
-                                      <th>XRUNE $</th>
-                                      <th>XRUNE #</th>
-                                      <th>ETH #</th>
-                                      <th>Value $</th>
-                                      <th>Rewards $</th>
-                                      <th>Rewards %</th>
-                                      <th>Change $</th>
-                                      <th>Change %</th>
-                                      <th>Yearly APR %</th>
-                                      <th>Yearly APY %</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    {item.history.map((h) => (
-                                      <tr key={h.date}>
-                                        <td style={{ textAlign: "left" }}>{formatDate(h.date)}</td>
-                                        <td>$ {parseFloat(h.price).toFixed(3)}</td>
-                                        <td>{h.amountToken.toFixed(1)}</td>
-                                        <td>{h.amountEth.toFixed(1)}</td>
-                                        <td>$ {h.value.toFixed(3)}</td>
-                                        <td>$ {h.tsRewards.toFixed(1)}</td>
-                                        <td>{(h.tsRewardsApy * 100).toFixed(0)} %</td>
-                                        <td>$ {(h.value * h.growth).toFixed(1)}</td>
-                                        <td>{(h.growth * 100).toFixed(1)} %</td>
-                                        <td>{(h.growth * 100 * 365).toFixed(1)} %</td>
-                                        <td>{formatLargeNumber(aprdToApy(h.growth) * 100)} %</td>
-                                      </tr>
-                                    ))}
-                                    </tbody>
-                                  </table>
+                                  <div className="dashboard-section">
+                                    <div className="dashboard-table">
+                                      <table>
+                                        <thead>
+                                        <tr>
+                                          <th style={{ textAlign: "left" }}>Date</th>
+                                          <th>XRUNE $</th>
+                                          <th>XRUNE #</th>
+                                          <th>ETH #</th>
+                                          <th>Value $</th>
+                                          <th>Rewards $</th>
+                                          <th>Rewards %</th>
+                                          <th>Change $</th>
+                                          <th>Change %</th>
+                                          <th>Yearly APR %</th>
+                                          <th>Yearly APY %</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {item.history.map((h) => (
+                                          <tr key={h.date}>
+                                            <td style={{ textAlign: "left" }}>{formatDate(h.date)}</td>
+                                            <td>$ {parseFloat(h.price).toFixed(3)}</td>
+                                            <td>{h.amountToken.toFixed(1)}</td>
+                                            <td>{h.amountEth.toFixed(1)}</td>
+                                            <td>$ {h.value.toFixed(3)}</td>
+                                            <td>$ {h.tsRewards.toFixed(1)}</td>
+                                            <td>{(h.tsRewardsApy * 100).toFixed(0)} %</td>
+                                            <td>$ {(h.value * h.growth).toFixed(1)}</td>
+                                            <td>{(h.growth * 100).toFixed(1)} %</td>
+                                            <td>{(h.growth * 100 * 365).toFixed(1)} %</td>
+                                            <td>{formatLargeNumber(aprdToApy(h.growth) * 100)} %</td>
+                                          </tr>
+                                        ))}
+                                        </tbody>
+                                      </table>
+                                    </div>
+                                  </div>
                                 </div>
                               </div>
                             </>
                           )}
-                          <div className="rewards-dashboard__foot tar">
-                            <button type="button" className="btn btn--small btn--remove" onClick={() => onRemoveAddress(item.address)}>Remove address</button>
-                          </div>
                         </>
                       ) : item.type === 'thor' ? (
                         <>
@@ -484,7 +498,12 @@ export default function Home() {
                             <>
                               <div className="dashboard-section">
                                 <div className="dashboard-section__head js__headline" onClick={e => onClickHeading(e, true)}>
-                                  <h3 className="section-title">THORChain XRUNE-RUNE LP</h3>
+                                  <h3 className="section-title">
+                                    <Image src="/static/img/src/icon-xrune.png" alt="" width={32} height={32}/>
+                                    <a href="https://app.thorswap.finance/add/ETH.XRUNE-0X69FA0FEE221AD11012BAB0FDB45D444D3D2CE71C" target="_blank" rel="noreferrer">
+                                      THORChain XRUNE-RUNE LP
+                                    </a>
+                                  </h3>
                                 </div>
                                 <div style={{display: 'none'}}>
                                   <div className="cards-grid">
@@ -505,52 +524,49 @@ export default function Home() {
                                       </div>
                                     </div>
                                   </div>
+                                  <div className="dashboard-section">
+                                    <div className="dashboard-table">
+                                      <table>
+                                        <thead>
+                                        <tr>
+                                          <th style={{ textAlign: "left" }}>Date</th>
+                                          <th>XRUNE $</th>
+                                          <th>XRUNE #</th>
+                                          <th>RUNE #</th>
+                                          <th>Value $</th>
+                                          <th>Rewards $</th>
+                                          <th>Rewards %</th>
+                                          <th>Change $</th>
+                                          <th>Change %</th>
+                                          <th>Yearly APR %</th>
+                                          <th>Yearly APY %</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {item.history.map((h) => (
+                                          <tr key={h.pool.startTime}>
+                                            <td style={{ textAlign: "left" }}>
+                                              {formatDate(h.pool.startTime)}
+                                            </td>
+                                            <td>$ {parseFloat(h.pool.assetPriceUSD).toFixed(3)}</td>
+                                            <td>{h.assetAmount.toFixed(1)}</td>
+                                            <td>{h.runeAmount.toFixed(1)}</td>
+                                            <td>$ {h.value.toFixed(3)}</td>
+                                            <td>$ {h.tsRewards.toFixed(1)}</td>
+                                            <td>{(h.tsRewardsApy * 100).toFixed(0)} %</td>
+                                            <td>$ {(h.value * h.growth).toFixed(1)}</td>
+                                            <td>{(h.growth * 100).toFixed(1)} %</td>
+                                            <td>{(h.growth * 100 * 365).toFixed(1)} %</td>
+                                            <td>{formatLargeNumber(aprdToApy(h.growth) * 100)} %</td>
+                                          </tr>
+                                        ))}
+                                        </tbody>
+                                      </table>
+                                    </div>
+                                  </div>
                                 </div>
                               </div>
 
-                              <div className="dashboard-section">
-                                <div className="dashboard-table">
-                                  <table>
-                                    <thead>
-                                    <tr>
-                                      <th style={{ textAlign: "left" }}>Date</th>
-                                      <th>XRUNE $</th>
-                                      <th>XRUNE #</th>
-                                      <th>RUNE #</th>
-                                      <th>Value $</th>
-                                      <th>Rewards $</th>
-                                      <th>Rewards %</th>
-                                      <th>Change $</th>
-                                      <th>Change %</th>
-                                      <th>Yearly APR %</th>
-                                      <th>Yearly APY %</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    {item.history.map((h) => (
-                                      <tr key={h.pool.startTime}>
-                                        <td style={{ textAlign: "left" }}>
-                                          {formatDate(h.pool.startTime)}
-                                        </td>
-                                        <td>$ {parseFloat(h.pool.assetPriceUSD).toFixed(3)}</td>
-                                        <td>{h.assetAmount.toFixed(1)}</td>
-                                        <td>{h.runeAmount.toFixed(1)}</td>
-                                        <td>$ {h.value.toFixed(3)}</td>
-                                        <td>$ {h.tsRewards.toFixed(1)}</td>
-                                        <td>{(h.tsRewardsApy * 100).toFixed(0)} %</td>
-                                        <td>$ {(h.value * h.growth).toFixed(1)}</td>
-                                        <td>{(h.growth * 100).toFixed(1)} %</td>
-                                        <td>{(h.growth * 100 * 365).toFixed(1)} %</td>
-                                        <td>{formatLargeNumber(aprdToApy(h.growth) * 100)} %</td>
-                                      </tr>
-                                    ))}
-                                    </tbody>
-                                  </table>
-                                </div>
-                              </div>
-                              <div className="rewards-dashboard__foot tar">
-                                <button type="button" className="btn btn--small btn--remove" onClick={() => onRemoveAddress(item.address)}>Remove address</button>
-                              </div>
                             </>
                           )}
                         </>
@@ -576,3 +592,14 @@ export default function Home() {
     </>
   );
 }
+
+const IconRemove = () => (
+  <svg width="20" height="20" viewBox="0 0 512 512" fill="white" xmlns="http://www.w3.org/2000/svg">
+    <path d="M356.65,450H171.47a41,41,0,0,1-40.9-40.9V120.66a15,15,0,0,1,15-15h237a15,15,0,0,1,15,15V409.1A41,41,0,0,1,356.65,450ZM160.57,135.66V409.1a10.91,10.91,0,0,0,10.9,10.9H356.65a10.91,10.91,0,0,0,10.91-10.9V135.66Z"/>
+    <path d="M327.06,135.66h-126a15,15,0,0,1-15-15V93.4A44.79,44.79,0,0,1,230.8,48.67h66.52A44.79,44.79,0,0,1,342.06,93.4v27.26A15,15,0,0,1,327.06,135.66Zm-111-30h96V93.4a14.75,14.75,0,0,0-14.74-14.73H230.8A14.75,14.75,0,0,0,216.07,93.4Z"/>
+    <path d="M264.06,392.58a15,15,0,0,1-15-15V178.09a15,15,0,1,1,30,0V377.58A15,15,0,0,1,264.06,392.58Z"/>
+    <path d="M209.9,392.58a15,15,0,0,1-15-15V178.09a15,15,0,0,1,30,0V377.58A15,15,0,0,1,209.9,392.58Z"/>
+    <path d="M318.23,392.58a15,15,0,0,1-15-15V178.09a15,15,0,0,1,30,0V377.58A15,15,0,0,1,318.23,392.58Z"/>
+    <path d="M405.81,135.66H122.32a15,15,0,0,1,0-30H405.81a15,15,0,0,1,0,30Z"/>
+  </svg>
+)

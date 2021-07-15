@@ -35,9 +35,16 @@
 		position: relative;
 		cursor: pointer;
 		word-break: break-word;
-		padding-right: 24px;
+		padding-right: 44px;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
 		&.is-pressed:after {
 			transform: translateY(-50%) rotate(45deg);
+		}
+		&:not(.is-pressed) button {
+			opacity: 0;
+			pointer-events: none;
 		}
 		&:after {
 			content: '';
@@ -50,6 +57,32 @@
 			background: url('/static/img/icons/plus-white.svg') no-repeat center / contain;
 			transition: var(--transition);
 		}
+		button {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			padding: 0;
+			border: 0;
+			font-size: 14px;
+			text-transform: uppercase;
+			font-weight: 500;
+			background-color: transparent;
+			color: var(--red);
+			cursor: pointer;
+			transition: var(--transition);
+			white-space: nowrap;
+			&:hover {
+				color: var(--red-hover);
+				svg {
+					fill: var(--red-hover);
+				}
+			}
+			svg {
+				fill: var(--red);
+				margin-right: 6px;
+				transition: var(--transition);
+			}
+		}
 	}
 	&__body {
 		display: none;
@@ -61,6 +94,20 @@
 			min-width: unset;
 			padding: 0 16px;
 			margin-top: 0 !important;
+		}
+	}
+	@include media($phone) {
+		&__head {
+			font-size: 16px;
+			padding-right: 36px;
+			button {
+				font-size: 0;
+				margin-left: 16px;
+
+				svg {
+					margin-right: 0;
+				}
+			}
 		}
 	}
 }
