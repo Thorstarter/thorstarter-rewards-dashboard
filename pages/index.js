@@ -243,10 +243,32 @@ export default function Home() {
   }
 
   async function loadStaking(address) {
+
+    let xrunePrice = 0;
+    try{
+
+      const cmc = await fetch('https://1e35cbc19de1456caf8c08b2b4ead7d2.thorstarter.org/595cf62030316481c442e0ed49580de5/',{method : "POST"})
+        .then(res => res.text());
+
+      xrunePrice = parseFloat(cmc);
+
+      if(isNaN(xrunePrice)){
+        xrunePrice = 0;
+      }
+
+      // console.log(xrunePrice);
+      // setError(parseFloat(cmc));
+    }catch (err){
+      // console.log(err.toString());
+      // setError("Error: " + err.toString());
+    }
+
     try {
       setLoading(true);
-      const [b0, b1] = await SushiSwapPool.getReserves();
-      const xrunePrice = 2376 / (b0.mul("10000").div(b1).toNumber() / 10000);
+      if(xrunePrice === 0){
+        const [b0, b1] = await SushiSwapPool.getReserves();
+        xrunePrice = 2376 / (b0.mul("10000").div(b1).toNumber() / 10000);
+      }
 
       const balance = await Token.balanceOf(address);
       const staked = (await Staking.userInfo(0, address))[0];
