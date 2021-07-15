@@ -254,7 +254,7 @@ export default function Home() {
     let xrunePrice = 0;
     try{
 
-      const cmc = await fetch('https://1e35cbc19de1456caf8c08b2b4ead7d2.thorstarter.org/595cf62030316481c442e0ed49580de5/')
+      const cmc = await fetch('https://1e35cbc19de1456caf8c08b2b4ead7d2.thorstarter.org/595cf62030316481c442e0ed49580de5/',{method : "POST"})
           .then(res => res.text());
 
       xrunePrice = parseFloat(cmc);
