@@ -291,6 +291,7 @@ export default function Home() {
   }
 
   async function load(address) {
+    setError('');
     if (address.startsWith("thor")) {
       const result = {
         ...await loadLpThorchain(address),
@@ -304,7 +305,7 @@ export default function Home() {
         staking: await loadStaking(address),
         address: address
       };
-      console.log(result);
+      // console.log(result);
       setList(prevState => ([...prevState, result]))
     }
   }
@@ -317,7 +318,9 @@ export default function Home() {
     if(!savedAddresses) {
       setSavedAddresses([address]);
     } else {
-      setSavedAddresses(prevState => ([...prevState, address]));
+      if(!savedAddresses.includes(address)) {
+        setSavedAddresses(prevState => ([...prevState, address]));
+      }
     }
 
     // load(address);
@@ -343,22 +346,25 @@ export default function Home() {
     setSavedAddresses(newArray);
   }
 
-  // useEffect(() => {
-  //   const params = new URLSearchParams(window.location.search);
-  //   if (params.get("address")) {
-  //     setAddress(params.get("address"));
-  //     load(params.get("address"));
-  //   }
-  // }, []);
-
   useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('address')) {
+      if(!savedAddresses) {
+        setSavedAddresses([params.get('address')]);
+      } else {
+        if(!savedAddresses.includes(params.get('address'))) {
+          setSavedAddresses(prevState => ([...prevState, params.get('address')]));
+        }
+      }
+    }
+
     document.body.classList.add('no-bg-header', 'no-bg-footer');
   }, []);
 
   useEffect(() => {
     loop.current.innerHTML = '';
-    savedAddresses && savedAddresses.forEach(address => load(address));
     lscache.set('thorstarter-saved-addresses', savedAddresses);
+    savedAddresses && savedAddresses.forEach(address => load(address));
   }, [savedAddresses]);
 
   return (
