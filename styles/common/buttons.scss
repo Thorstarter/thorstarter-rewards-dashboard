@@ -43,6 +43,14 @@
 			color: var(--brand);;
 		}
 	}
+	&--remove {
+		color: var(--white);
+		background-color: var(--red);
+		&:hover {
+			color: var(--white);
+			background-color: var(--red-hover);
+		}
+	}
 	svg {
 		display: inline-block;
 		vertical-align: middle;
