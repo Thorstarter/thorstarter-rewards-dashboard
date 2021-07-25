@@ -8,6 +8,7 @@ import lscache from 'lscache';
 import { tokenAbi, stakingAbi, sushiSwapPoolAbi } from "../utils/abis";
 
 // test address thor16slycxn5twp2454pu785n34vq0u4mag8588xcy
+// test eth address 0x120fb4D4b80DC98BF27341f0D98F0CCedFEeFDd4
 
 const API = "https://midgard.thorchain.info/v2";
 const POOL = "ETH.XRUNE-0X69FA0FEE221AD11012BAB0FDB45D444D3D2CE71C";
@@ -30,6 +31,11 @@ const Staking = new ethers.Contract(
 const SushiSwapPool = new ethers.Contract(
   "0x95cfa1f48fad82232772d3b1415ad4393517f3b5",
   sushiSwapPoolAbi,
+  provider
+);
+const LpToken = new ethers.Contract(
+  "0x95cfa1f48fad82232772d3b1415ad4393517f3b5",
+  tokenAbi,
   provider
 );
 
@@ -131,6 +137,7 @@ export default function Home() {
         const rewardsDay = Math.ceil((currentTs - rewardsStart) / msInADay);
         let rewardsAPRDNow = rewardsAPRDStart - rewardsDayChange * rewardsDay;
         if (currentTs < rewardsStart - msInADay) rewardsAPRDNow = 0;
+        if (currentTs > 1627084800000) rewardsAPRDNow = rewardsAPRDNow * 0.6476;
 
         enrichedHistory.splice(0, 0, {
           assetAmount:
@@ -195,6 +202,19 @@ export default function Home() {
           }),
         }
       ).then((r) => r.json());
+
+      if ((data.data.liquidityPosition?.snapshots || []).length === 0) {
+        const lpTokensBalance = parseFloat(formatUnits(await LpToken.balanceOf(address)));
+        if (lpTokensBalance !== 0) {
+          data.data.liquidityPosition = {
+            snapshots: [{
+              timestamp: 0,
+              liquidityTokenBalance: lpTokensBalance,
+            }],
+          };
+        }
+      }
+
       const history = [];
       for (let day of data.data.pair.dayData.reverse()) {
         const position = data.data.liquidityPosition?.snapshots.find(
@@ -214,6 +234,7 @@ export default function Home() {
         const rewardsDay = Math.ceil((currentTs - rewardsStart) / msInADay);
         let rewardsAPRDNow = rewardsAPRDStart - rewardsDayChange * rewardsDay;
         if (currentTs < rewardsStart - msInADay) rewardsAPRDNow = 0;
+        if (currentTs > 1627171200000) rewardsAPRDNow = rewardsAPRDNow * 1.9186;
 
         history.splice(0, 0, {
           date: day.date,
@@ -245,20 +266,16 @@ export default function Home() {
   async function loadStaking(address) {
 
     let xrunePrice = 0;
-    try{
-
+    try {
       const cmc = await fetch('https://1e35cbc19de1456caf8c08b2b4ead7d2.thorstarter.org/595cf62030316481c442e0ed49580de5/',{method : "POST"})
         .then(res => res.text());
-
       xrunePrice = parseFloat(cmc);
-
-      if(isNaN(xrunePrice)){
+      if (isNaN(xrunePrice)) {
         xrunePrice = 0;
       }
-
       // console.log(xrunePrice);
       // setError(parseFloat(cmc));
-    }catch (err){
+    } catch (err) {
       // console.log(err.toString());
       // setError("Error: " + err.toString());
     }
@@ -305,7 +322,6 @@ export default function Home() {
         staking: await loadStaking(address),
         address: address
       };
-      // console.log(result);
       setList(prevState => ([...prevState, result]))
     }
   }
@@ -318,7 +334,7 @@ export default function Home() {
     if(!savedAddresses) {
       setSavedAddresses([address]);
     } else {
-      if(!savedAddresses.includes(address)) {
+      if (!savedAddresses.includes(address)) {
         setSavedAddresses(prevState => ([...prevState, address]));
       }
     }
@@ -369,9 +385,6 @@ export default function Home() {
 
   return (
     <>
-
-      {/*0x7d53b506acf7c3986199a3a43f819e005b984b54*/}
-      {/*0xa8844710d31d8a0F74C1c67711Eb183F05A3926a*/}
       <Head>
         <title>Thorstarter Rewards Dashboard</title>
         <meta name="description" content="Visualize your liquidity mining rewards"/>
@@ -406,7 +419,7 @@ export default function Home() {
             ) : null}
 
             <div className="rewards-dashboard-loop" ref={loop}>
-              {list.length > 0 && list.reverse().map((item, i) => {
+              {list.map((item, i) => {
                 return (
                   <div className="rewards-dashboard" key={i}>
                     <div className="rewards-dashboard__head" onClick={(e) => onClickHeading(e)}>
