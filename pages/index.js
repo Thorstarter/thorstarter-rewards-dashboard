@@ -40,7 +40,7 @@ const LpToken = new ethers.Contract(
 );
 const Voters = new ethers.Contract(
   "0xEBCD3922A199cd1358277C6458439C13A93531eD",
-  ["function userInfo() public view returns (uint256, uint256, uint256, uint256, uint256, uint256, address)"],
+  ["function userInfo(address) public view returns (uint256, uint256, uint256, uint256, uint256, uint256, address)"],
   provider
 );
 
@@ -205,7 +205,9 @@ export default function Home() {
       let lpTokensBalance = parseFloat(formatUnits(await LpToken.balanceOf(address)));
       try {
         lpTokensBalance += parseFloat(formatUnits((await Voters.userInfo(address))[3]));
-      } catch(e) {}
+      } catch(err) {
+        console.error(err);
+      }
       if (lpTokensBalance !== 0) {
         data.data.liquidityPosition = {
           snapshots: [{
