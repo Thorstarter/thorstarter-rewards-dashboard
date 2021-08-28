@@ -38,6 +38,11 @@ const LpToken = new ethers.Contract(
   tokenAbi,
   provider
 );
+const Voters = new ethers.Contract(
+  "0xEBCD3922A199cd1358277C6458439C13A93531eD",
+  ["function userInfo() public view returns (uint256, uint256, uint256, uint256, uint256, uint256, address)"],
+  provider
+);
 
 const msInADay = 1000 * 60 * 60 * 24;
 const rewardsStart = new Date(2021, 6, 4).getTime();
@@ -182,12 +187,6 @@ export default function Home() {
           method: "POST",
           body: JSON.stringify({
             query: `{
-            liquidityPosition(id: "0x95cfa1f48fad82232772d3b1415ad4393517f3b5-${address}") {
-              snapshots(orderBy: timestamp, orderDirection: desc) {
-                timestamp
-                liquidityTokenBalance
-              }
-            }
             pair(id: "0x95cfa1f48fad82232772d3b1415ad4393517f3b5") {
               dayData(first: 30, orderBy: date, orderDirection: desc) {
                 date
@@ -203,16 +202,17 @@ export default function Home() {
         }
       ).then((r) => r.json());
 
-      if ((data.data.liquidityPosition?.snapshots || []).length === 0) {
-        const lpTokensBalance = parseFloat(formatUnits(await LpToken.balanceOf(address)));
-        if (lpTokensBalance !== 0) {
-          data.data.liquidityPosition = {
-            snapshots: [{
-              timestamp: 0,
-              liquidityTokenBalance: lpTokensBalance,
-            }],
-          };
-        }
+      let lpTokensBalance = parseFloat(formatUnits(await LpToken.balanceOf(address)));
+      try {
+        lpTokensBalance += parseFloat(formatUnits((await Voters.userInfo(address))[3]));
+      } catch(e) {}
+      if (lpTokensBalance !== 0) {
+        data.data.liquidityPosition = {
+          snapshots: [{
+            timestamp: 0,
+            liquidityTokenBalance: lpTokensBalance,
+          }],
+        };
       }
 
       const history = [];
