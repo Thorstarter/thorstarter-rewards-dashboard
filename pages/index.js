@@ -149,6 +149,7 @@ export default function Home() {
         if (currentTs < rewardsStart - msInADay) rewardsAPRDNow = 0;
         if (currentTs > 1627084800000) rewardsAPRDNow = rewardsAPRDNow * 0.6476;
         if (currentTs > 1632182400000) rewardsAPRDNow = 0.0001369863014;
+        if (currentTs > 1635552000000) rewardsAPRDNow = 0.00495;
 
         enrichedHistory.splice(0, 0, {
           assetAmount:
@@ -250,6 +251,7 @@ export default function Home() {
         if (currentTs < rewardsStart - msInADay) rewardsAPRDNow = 0;
         if (currentTs > 1627171200000) rewardsAPRDNow = rewardsAPRDNow * 1.9186;
         if (currentTs > 1632182400000) rewardsAPRDNow = 0.0001369863014;
+        if (currentTs > 1635552000000) rewardsAPRDNow = 0.00495;
 
         history.splice(0, 0, {
           date: day.date,
