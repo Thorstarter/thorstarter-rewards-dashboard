@@ -125,9 +125,10 @@ export default function Home() {
         setError("No XRUNE LP found for this address.");
         return;
       }
+      const from = Math.max(xrunePosition.dateFirstAdded, (Date.now()/1000)|0 - (59 * 24 * 60 * 60));
       const history = (
         await fetchJson(
-          `/history/depths/${POOL}?interval=day&count=60&from=${xrunePosition.dateFirstAdded}`
+          `/history/depths/${POOL}?interval=day&count=60&from=${from}`
         )
       ).intervals;
       const enrichedHistory = [];
