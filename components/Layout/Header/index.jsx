@@ -1,13 +1,13 @@
 export default function Header() {
 	return (
 		<>
-			<div className="ido-alert">
-				<div className="wrap">
-					<p>
-						<a href="https://thorstarter.org/stake/">Liquidity mining rewards are now Live</a>
-					</p>
-				</div>
-			</div>
+			{/*<div className="ido-alert">*/}
+			{/*	<div className="wrap">*/}
+			{/*		<p>*/}
+			{/*			<a href="https://thorstarter.org/stake/">Liquidity mining rewards are now Live</a>*/}
+			{/*		</p>*/}
+			{/*	</div>*/}
+			{/*</div>*/}
 			<header className="header">
 				<div className="wrap">
 					<div className="logo">
