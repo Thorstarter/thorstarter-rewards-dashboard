@@ -251,7 +251,7 @@ export default function Home() {
         if (currentTs < rewardsStart - msInADay) rewardsAPRDNow = 0;
         if (currentTs > 1627171200000) rewardsAPRDNow = rewardsAPRDNow * 1.9186;
         if (currentTs > 1632182400000) rewardsAPRDNow = 0.0001369863014;
-        if (currentTs > 1635552000000) rewardsAPRDNow = 0.00495;
+        if (currentTs > 1635552000000) rewardsAPRDNow = 0.00112;
 
         history.splice(0, 0, {
           date: day.date,
