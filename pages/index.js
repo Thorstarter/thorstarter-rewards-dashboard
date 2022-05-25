@@ -150,6 +150,8 @@ export default function Home() {
         if (currentTs > 1627084800000) rewardsAPRDNow = rewardsAPRDNow * 0.6476;
         if (currentTs > 1632182400000) rewardsAPRDNow = 0.0001369863014;
         if (currentTs > 1635552000000) rewardsAPRDNow = 0.00495;
+        if (currentTs > 1646438400000) rewardsAPRDNow = 0.00351;
+        if (currentTs > 1653004800000) rewardsAPRDNow = 0.00026;
 
         enrichedHistory.splice(0, 0, {
           assetAmount:
